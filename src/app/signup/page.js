@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import "../auth.css";
 
 export default function Signup() {
@@ -16,9 +17,11 @@ export default function Signup() {
   } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
+
     toast.success("Signup successful!", {
       position: "top-right",
       autoClose: 3000, // Close after 3 seconds
@@ -28,6 +31,10 @@ export default function Signup() {
       draggable: true,
       theme: "light",
     });
+
+    setTimeout(() => {
+        router.push("/login"); // Redirect to login page after toast
+      }, 2000); // Wait for the toast to finish before redirecting
   };
 
   return (

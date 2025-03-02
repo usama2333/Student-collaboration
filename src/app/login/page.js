@@ -129,7 +129,7 @@ export default function Login() {
               </Link>
             </span>
           </p>
-          <p className="creator_text">Createdby Mahpara</p>
+          <p className="creator_text">Createdby Name</p>
         </form>
       </div>
       <ToastContainer />
