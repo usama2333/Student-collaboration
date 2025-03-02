@@ -122,7 +122,7 @@ export default function Login() {
             Login
           </button>
           <p className="already_account mt">
-            Don't have an account?{" "}
+            Do not have an account?{" "}
             <span>
               <Link href="/signup" className="signin_link">
                 Sign Up
