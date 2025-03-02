@@ -19,7 +19,7 @@ export default function Login() {
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-    toast.success("Login successful!", {
+    toast.success("OTP send successfully!", {
       position: "top-right",
       autoClose: 3000, // Close after 3 seconds
       hideProgressBar: false,
@@ -39,9 +39,9 @@ export default function Login() {
 
       {/* form container */}
       <div className="form_main_con">
-        <p className="signup_text">LOGIN</p>
+        <p className="signup_text">FORGOT PASSWORD</p>
         <p className="fill_text mt">
-          Please fill your detail to login into your account.
+          Please enter your valid email to process.
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -67,65 +67,15 @@ export default function Login() {
             />
           </div>
 
-          {/* Password Field */}
-          <div className="form-group">
-            <div style={{ display: "flex", gap: "10px" }}>
-              <label
-                style={{ width: "100%" }}
-                htmlFor="password"
-                className={`form-label ${errors.password ? "error-label" : ""}`}
-              >
-                Password{" "}
-                {errors.password && <span className="error-asterisk">*</span>}
-              </label>
-              <div
-                className="toggle-password"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? "🙈" : "👁️"}
-              </div>
-            </div>
-
-            <input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-              })}
-              className="form-input mt"
-            />
-          </div>
-
-          <div className="forgot_row">
-            <div className="remember-container">
-              <input
-                type="checkbox"
-                id="remember"
-                className="remember-checkbox"
-              />
-              <label htmlFor="remember" className="remember-text">
-                Remember me
-              </label>
-            </div>
-
-            <Link href="/forgot-password" className="forgot_text">
-              Forgot password?
-            </Link>
-          </div>
-
           {/* Submit Button */}
           <button type="submit" className="submit-button mt">
-            Login
+            GENERATE OTP
           </button>
           <p className="already_account mt">
-            Don't have an account?{" "}
+          If you have already account please?{" "}
             <span>
-              <Link href="/signup" className="signin_link">
-                Sign Up
+              <Link href="/login" className="signin_link">
+                Sign in
               </Link>
             </span>
           </p>

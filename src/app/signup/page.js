@@ -4,7 +4,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./signup.css";
+import Link from "next/link";
+import "../auth.css";
 
 export default function Signup() {
   const {
@@ -19,16 +20,15 @@ export default function Signup() {
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
     toast.success("Signup successful!", {
-        position: "top-right",
-        autoClose: 3000, // Close after 3 seconds
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      });
+      position: "top-right",
+      autoClose: 3000, // Close after 3 seconds
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+    });
   };
-  
 
   return (
     <div className="container">
@@ -46,7 +46,7 @@ export default function Signup() {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-group">
-          <label
+            <label
               htmlFor="name"
               className={`form-label ${errors.name ? "error-label" : ""}`}
             >
@@ -58,12 +58,11 @@ export default function Signup() {
               {...register("name", { required: "Name is required" })}
               className="form-input"
             />
-           
           </div>
 
           {/* Email Field */}
           <div className="form-group">
-             <label
+            <label
               htmlFor="email"
               className={`form-label ${errors.email ? "error-label" : ""}`}
             >
@@ -86,12 +85,14 @@ export default function Signup() {
           {/* Password Field */}
           <div className="form-group">
             <div style={{ display: "flex", gap: "10px" }}>
-            <label
-              htmlFor="password"
-              className={`form-label ${errors.password ? "error-label" : ""}`}
-            >
-              Password {errors.password && <span className="error-asterisk">*</span>}
-            </label>
+              <label
+                style={{ width: "100%" }}
+                htmlFor="password"
+                className={`form-label ${errors.password ? "error-label" : ""}`}
+              >
+                Password{" "}
+                {errors.password && <span className="error-asterisk">*</span>}
+              </label>
               <div
                 className="toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
@@ -100,7 +101,6 @@ export default function Signup() {
               </div>
             </div>
 
-            <div className="password-wrapper">
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
@@ -113,18 +113,23 @@ export default function Signup() {
                 })}
                 className="form-input"
               />
-            </div>
+           
           </div>
 
           {/* Confirm Password Field */}
           <div className="form-group">
             <div style={{ display: "flex", gap: "10px" }}>
-            <label
-              htmlFor="confirmPassword"
-              className={`form-label ${errors.confirmPassword ? "error-label" : ""}`}
-            >
-              Confirm Password {errors.confirmPassword && <span className="error-asterisk">*</span>}
-            </label>
+              <label
+                htmlFor="confirmPassword"
+                className={`form-label ${
+                  errors.confirmPassword ? "error-label" : ""
+                }`}
+              >
+                Confirm Password{" "}
+                {errors.confirmPassword && (
+                  <span className="error-asterisk">*</span>
+                )}
+              </label>
               <div
                 className="toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
@@ -132,7 +137,7 @@ export default function Signup() {
                 {showPassword ? "🙈" : "👁️"}
               </div>
             </div>
-            <div className="password-wrapper">
+           
               <input
                 id="confirmPassword"
                 type={showPassword ? "text" : "password"}
@@ -143,13 +148,21 @@ export default function Signup() {
                 })}
                 className="form-input"
               />
-            </div>
+           
           </div>
 
           {/* Submit Button */}
           <button type="submit" className="submit-button">
             Signup
           </button>
+          <p className="already_account">
+            If you already have an account, please?{" "}
+            <span>
+              <Link href="/login" className="signin_link">
+                Sign In
+              </Link>
+            </span>
+          </p>
         </form>
       </div>
       <ToastContainer />
