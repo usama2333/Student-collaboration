@@ -27,6 +27,12 @@ export default function Sidebar() {
               <p>Users</p>
             </Link>
           </li>
+          <li>
+            <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/add-user" className="nav-link">
+              <Image src={user} alt="User Icon" />
+              <p>Add User</p>
+            </Link>
+          </li>
         </ul>
       </nav>
     </aside>
