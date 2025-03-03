@@ -1,0 +1,50 @@
+.navbar {
+    height: 65px;
+    padding: 20px;
+}
+
+.nav_flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav_text {
+    color: #222222;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform:uppercase;
+}
+
+.pie_image {
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border-radius: 50%; /* Ensures a circular effect */
+}
+
+.pie_image:hover {
+    box-shadow: 0 0 10px rgba(128, 128, 128, 0.6); /* Grey outer glow */
+    transform: scale(1.1); /* Slight zoom effect */
+}
+
+.email_profile_row {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.name_text {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+    color: #0E1B42;
+    text-align: right;
+}
+
+.email_text {
+    color: #707787;
+    font-size: 13px;
+    letter-spacing: 0px;
+}

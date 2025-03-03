@@ -34,7 +34,7 @@ export default function Signup() {
 
     setTimeout(() => {
         router.push("/login"); // Redirect to login page after toast
-      }, 2000); // Wait for the toast to finish before redirecting
+      }, 1000); // Wait for the toast to finish before redirecting
   };
 
   return (

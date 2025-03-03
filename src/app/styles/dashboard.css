@@ -1,0 +1,12 @@
+/* Dashboard Layout */
+.container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Main Content */
+  .content {
+    flex: 1;
+    padding: 20px;
+  }
+  
