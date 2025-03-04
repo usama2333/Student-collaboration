@@ -2,21 +2,22 @@
 import Image from "next/image";
 import "../styles/navbar.css";
 import { pie } from "../utils/images";
-import { FaBell, FaUserCircle } from "react-icons/fa";
+import { FaBell,  } from "react-icons/fa";
 import { useState } from "react";
 import Link from "next/link";
-import { useSelector, useDispatch } from "react-redux";
-import { setShow } from "@/redux/features/sidebarSlice";
-
+import { usePathname } from "next/navigation";
+import { routeMap } from "@/constants/routes";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const show = useSelector((state) => state.sidebar.show);
-  const dispatch = useDispatch();
+  const pathname = usePathname();
+ 
+  const activePage = routeMap[pathname] || "DASHBOARD"; 
+
   return (
     <nav className="navbar">
       <div className="nav_flex">
-        <p className="nav_text">{show}</p>
+        <p className="nav_text">{activePage}</p>
 
         <div className="email_profile_row">
           <div className="notification">
@@ -36,9 +37,9 @@ export default function Navbar() {
            {isOpen && (
           <div className="dropdown-menu" onClick={() => setIsOpen(!isOpen)}>
             <ul>
-              <li onClick={() => dispatch(setShow('DASHBOARD'))}><Link href="/dashboard">Dashboard</Link></li>
-              <li onClick={() => dispatch(setShow('USERS'))}><Link href="/dashboard/users">Users</Link></li>
-              <li onClick={() => dispatch(setShow('ADD USER'))}><Link href="/dashboard/add-user">Add User</Link></li>
+              <li ><Link href="/dashboard">Dashboard</Link></li>
+              <li ><Link href="/dashboard/users">Users</Link></li>
+              <li ><Link href="/dashboard/add-user">Add User</Link></li>
               <li ><Link href="/login">Logout</Link></li>
             </ul>
           </div>

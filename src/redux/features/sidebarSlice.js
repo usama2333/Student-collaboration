@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 // Initial state for counter
-const initialState = { show: "dashboard"};
+const initialState = { show: ""};
 
 // Creating Redux slice for counter
 const sidebarSlice = createSlice({
