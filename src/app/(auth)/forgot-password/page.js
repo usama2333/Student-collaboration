@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import "../../auth.css";
 
 export default function Login() {
@@ -16,6 +17,7 @@ export default function Login() {
   } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
@@ -28,6 +30,10 @@ export default function Login() {
       draggable: true,
       theme: "light",
     });
+    setTimeout(() => {
+      router.push("/update-password"); // Redirect to login page after toast
+    }, 1000); // Wait for the toast to finish before redirecting
+
   };
 
   return (
