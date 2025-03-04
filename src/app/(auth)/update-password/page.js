@@ -47,7 +47,7 @@ export default function Signup() {
       {/* form container */}
       <div className="form_main_con">
         <p className="signup_text">UPDATE PASSWORD</p>
-        <p className="fill_text">
+        <p className="fill_text pb_30">
           Please fill your detail to update your password.
         </p>
 

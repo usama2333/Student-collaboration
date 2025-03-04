@@ -192,6 +192,10 @@
   transform: translateY(-5px);
 }
 
+.pb_30 {
+  padding-bottom: 30px;
+}
+
 @media (max-width: 990px) {
   .container {
     background-size: cover;
