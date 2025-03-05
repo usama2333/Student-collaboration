@@ -97,6 +97,7 @@ export default function AddUsers() {
                   />
                 </div>
 
+                {/* Department Select */}
                 <div className="form-group">
                   <label
                     htmlFor="designation"
@@ -109,15 +110,18 @@ export default function AddUsers() {
                       <span className="error-asterisk">*</span>
                     )}
                   </label>
-                  <input
-                    id="designation"
-                    type="text"
-                    placeholder="Enter your designation"
+                  <select
                     {...register("designation", {
-                      required: "Designation is required",
+                      required: "Please select a designation",
                     })}
-                    className="form-input"
-                  />
+                    className="form-select"
+                  >
+                    <option value="">Select a designation</option>
+                    <option value="IT">IT</option>
+                    <option value="Student">Student</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Other">Other</option>
+                  </select>
                 </div>
 
                 {/* Department Select */}
@@ -143,7 +147,7 @@ export default function AddUsers() {
                     <option value="IT">IT</option>
                     <option value="Computer Science">Computer Science</option>
                     <option value="Engineering">Engineering</option>
-                    <option value="Medical">Medical</option>
+                    <option value="Other">Other</option>
                   </select>
                 </div>
 
@@ -183,11 +187,11 @@ export default function AddUsers() {
                   <div className="image-box">
                     {!selectedImage && (
                       <Image
-                      src="/images/dummy.png"
-                      alt="Upload"
-                      width={70}
-                      height={70}
-                    />
+                        src="/images/dummy.png"
+                        alt="Upload"
+                        width={70}
+                        height={70}
+                      />
                     )}
                     {selectedImage && (
                       <div className="image-preview">
@@ -223,15 +227,14 @@ export default function AddUsers() {
 
                   {/* Cancel Button */}
                   {selectedImage && (
-    
                     <Image
-                    onClick={() => setSelectedImage(null)}
-                        src="/images/cancel.png"
-                         alt="Cancel"
+                      onClick={() => setSelectedImage(null)}
+                      src="/images/cancel.png"
+                      alt="Cancel"
                       className="cancel-btn"
-                        width={30} // Set the width
-                        height={30} // Set the height
-                      />
+                      width={30} // Set the width
+                      height={30} // Set the height
+                    />
                   )}
                 </div>
 
