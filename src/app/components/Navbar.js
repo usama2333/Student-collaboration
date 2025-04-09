@@ -1,18 +1,30 @@
 "use client"
-import Image from "next/image";
+
 import "../styles/navbar.css";
+import Image from "next/image";
 import { pie } from "../utils/images";
 import { FaBell,  } from "react-icons/fa";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { routeMap } from "@/constants/routes";
+import AuthContext from "@/redux/auth-contex";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
+  const authCtx = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
  
   const activePage = routeMap[pathname] || "DASHBOARD"; 
+
+  const handleLogout = () => {
+    authCtx.logout();
+    setTimeout(() => {
+      router.push("/login"); 
+    }, 1000); 
+  };
 
   return (
     <nav className="navbar">
@@ -40,7 +52,7 @@ export default function Navbar() {
               <li ><Link href="/dashboard">Dashboard</Link></li>
               <li ><Link href="/dashboard/users">Users</Link></li>
               <li ><Link href="/dashboard/add-user">Add User</Link></li>
-              <li ><Link href="/login">Logout</Link></li>
+              <li ><Link href="/login" onClick={handleLogout}>Logout</Link></li>
             </ul>
           </div>
         )}

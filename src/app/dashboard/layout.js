@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 
 export default function DashboardLayout({ children }) {
   return (
-    <div className="container">
+    <div className="con">
      <Sidebar/>
       {/* Main Content */}
       <main className="content">

@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import sidebarReducer from "./features/sidebarSlice";
+import dashboardReducer from "./features/dashboardSlice";
 
 // Creating Redux store
 export const store = configureStore({
   reducer: {
-    sidebar: sidebarReducer, // Counter slice
+    dashboard: dashboardReducer,
   },
 });
 

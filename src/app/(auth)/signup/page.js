@@ -1,12 +1,13 @@
 "use client";
 
+import "../../auth.css";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import "../../auth.css";
+import signUpApi from "@/app/api/signupApi";
 
 export default function Signup() {
   const {
@@ -21,20 +22,7 @@ export default function Signup() {
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-
-    toast.success("Signup successful!", {
-      position: "top-right",
-      autoClose: 3000, // Close after 3 seconds
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "light",
-    });
-
-    setTimeout(() => {
-        router.push("/login"); // Redirect to login page after toast
-      }, 1000); // Wait for the toast to finish before redirecting
+    signUpApi(data, router, toast, setTimeout)
   };
 
   return (

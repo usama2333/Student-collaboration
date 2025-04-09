@@ -96,7 +96,7 @@
   }
   
   /* Submit Button */
-  .submit-button {
+  .create-button {
     width: 100px;
     background: #fe8062;
     color: white;
@@ -108,7 +108,7 @@
     transition: all 0.3s ease-in-out;
   }
   
-  .submit-button:hover {
+  .create-button:hover {
     background: #d66145;
   }
   

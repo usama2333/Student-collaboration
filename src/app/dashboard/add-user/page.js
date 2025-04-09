@@ -1,8 +1,8 @@
 "use client";
 
+import "../../styles/adduser.css";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
-import "../../styles/adduser.css";
 import { useState } from "react";
 import Image from "next/image";
 
@@ -49,7 +49,7 @@ export default function AddUsers() {
           <p className="info_text">General Info</p>
         </div>
         {/* form container */}
-        <div className="form_main_con">
+        <div className="form_con">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-flex-row">
               {/* form first haf */}
@@ -96,31 +96,48 @@ export default function AddUsers() {
                     className="form-input"
                   />
                 </div>
-
-                {/* Department Select */}
                 <div className="form-group">
                   <label
-                    htmlFor="designation"
+                    htmlFor="password"
                     className={`form-label ${
-                      errors.designation ? "error-label" : ""
+                      errors.password ? "error-label" : ""
                     }`}
                   >
-                    Designation{" "}
-                    {errors.designation && (
+                    Password{" "}
+                    {errors.password && (
                       <span className="error-asterisk">*</span>
                     )}
                   </label>
+                  <input
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    {...register("password", {
+                      required: "Password is required",
+                    })}
+                    className="form-input"
+                  />
+                </div>
+
+                {/* Role Select */}
+                <div className="form-group">
+                  <label
+                    htmlFor="role"
+                    className={`form-label ${errors.role ? "error-label" : ""}`}
+                  >
+                    Role{" "}
+                    {errors.role && <span className="error-asterisk">*</span>}
+                  </label>
                   <select
-                    {...register("designation", {
-                      required: "Please select a designation",
+                    {...register("role", {
+                      required: "Please select a role",
                     })}
                     className="form-select"
                   >
-                    <option value="">Select a designation</option>
-                    <option value="IT">IT</option>
-                    <option value="Student">Student</option>
-                    <option value="Teacher">Teacher</option>
-                    <option value="Other">Other</option>
+                    <option value="">Select a role</option>
+                    <option value="superadmin">Superadmin</option>
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
                   </select>
                 </div>
 
@@ -147,30 +164,6 @@ export default function AddUsers() {
                     <option value="IT">IT</option>
                     <option value="Computer Science">Computer Science</option>
                     <option value="Engineering">Engineering</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-
-                {/* Gender Select */}
-                <div className="form-group">
-                  <label
-                    htmlFor="gender"
-                    className={`form-label ${
-                      errors.department ? "error-label" : ""
-                    }`}
-                  >
-                    Gender{" "}
-                    {errors.gender && <span className="error-asterisk">*</span>}
-                  </label>
-                  <select
-                    {...register("gender", {
-                      required: "Please select a gender",
-                    })}
-                    className="form-select"
-                  >
-                    <option value="">Select a gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>
@@ -300,7 +293,7 @@ export default function AddUsers() {
             </div>
 
             {/* Submit Button */}
-            <button type="submit" className="submit-button">
+            <button type="submit" className="create-button">
               Create
             </button>
           </form>

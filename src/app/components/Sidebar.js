@@ -1,9 +1,10 @@
 "use client";
 
+import "../styles/sidebar.css";
 import Link from "next/link";
 import Image from "next/image";
 import { logo, dashboard, user } from "../utils/images"; 
-import "../styles/sidebar.css";
+
 
 export default function Sidebar() {
 

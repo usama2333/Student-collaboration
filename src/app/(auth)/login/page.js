@@ -1,14 +1,24 @@
 "use client";
 
+import "../../auth.css";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import "../../auth.css";
+import AuthContext from "@/redux/auth-contex";
+import loginApi from "@/app/api/loginApi";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogin } from "@/redux/features/dashboardSlice";
+
+
 
 export default function Login() {
+
+  const authCtx =  useContext(AuthContext);
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -21,19 +31,7 @@ export default function Login() {
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-    toast.success("Login successful!", {
-      position: "top-right",
-      autoClose: 3000, // Close after 3 seconds
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "light",
-    });
-
-    setTimeout(() => {
-      router.push("/dashboard"); 
-    }, 1000); // Wait for the toast to finish before redirecting
+    loginApi(data,authCtx,router,toast,setTimeout)
   };
 
   return (
