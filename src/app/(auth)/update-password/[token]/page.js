@@ -1,15 +1,16 @@
 "use client";
 
-import "../../auth.css";
+import "../../../auth.css";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import updateApi from "@/app/api/updateApi";
 import { useRouter } from "next/navigation";
 
 
-export default function Update() {
+export default function Update({params}) {
   const {
     register,
     handleSubmit,
@@ -18,25 +19,16 @@ export default function Update() {
   } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [token, setToken] = useState(params.token);
+
   const router = useRouter();
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-
-    toast.success("Signup successful!", {
-      position: "top-right",
-      autoClose: 3000, // Close after 3 seconds
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "light",
-    });
-
-    setTimeout(() => {
-        router.push("/login"); // Redirect to login page after toast
-      }, 1000); // Wait for the toast to finish before redirecting
+    console.log("token", token)
+    updateApi(token, data, toast, router, setTimeout)
   };
+  
 
   return (
     <div className="container">

@@ -20,7 +20,7 @@ export default async function loginApi(
         if (response.status === 200 || response.status === 201) {
             console.log(response, "login response.......");
             console.log(response.data.token, "token..............");
-           
+
             toast.success("Signup successful!", {
                 position: "top-right",
                 autoClose: 3000,
@@ -38,11 +38,9 @@ export default async function loginApi(
             authCtx.login(
                 response.data.token,
             );
-           
+
         }
     } catch (error) {
         console.log(error.message);
-
-        notify(error.message);
     }
 }
