@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import { useState } from "react";
 import Image from "next/image";
+import addUserApi from "@/app/api/addUserApi";
 
 export default function AddUsers() {
   // for handling image
@@ -30,16 +31,8 @@ export default function AddUsers() {
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-
-    toast.success("Add User successfully", {
-      position: "top-right",
-      autoClose: 3000, // Close after 3 seconds
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "light",
-    });
+    addUserApi(data, toast);
+    reset();
   };
 
   return (
@@ -98,22 +91,22 @@ export default function AddUsers() {
                 </div>
                 <div className="form-group">
                   <label
-                    htmlFor="password"
+                    htmlFor="dob"
                     className={`form-label ${
-                      errors.password ? "error-label" : ""
+                      errors.dob ? "error-label" : ""
                     }`}
                   >
-                    Password{" "}
-                    {errors.password && (
+                    DOB{" "}
+                    {errors.dob && (
                       <span className="error-asterisk">*</span>
                     )}
                   </label>
                   <input
-                    id="password"
-                    type="password"
-                    placeholder="Enter your password"
-                    {...register("password", {
-                      required: "Password is required",
+                    id="dob"
+                    type="date"
+                    placeholder="YY-MM-DD"
+                    {...register("dob", {
+                      required: "DOB is required",
                     })}
                     className="form-input"
                   />

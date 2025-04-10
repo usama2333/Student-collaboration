@@ -22,7 +22,8 @@ export default function Signup() {
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-    signUpApi(data, router, toast, setTimeout)
+    signUpApi(data, router, toast, setTimeout);
+    reset();
   };
 
   return (

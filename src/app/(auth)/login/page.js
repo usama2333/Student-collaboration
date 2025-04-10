@@ -31,7 +31,8 @@ export default function Login() {
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-    loginApi(data,authCtx,router,toast,setTimeout)
+    loginApi(data,authCtx,router,toast,setTimeout);
+    reset();
   };
 
   useEffect(() => {
