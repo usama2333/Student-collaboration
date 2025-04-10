@@ -2,7 +2,7 @@
 
 import "../../auth.css";
 import { useForm } from "react-hook-form";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
@@ -33,6 +33,16 @@ export default function Login() {
     console.log("Form Submitted:", data);
     loginApi(data,authCtx,router,toast,setTimeout)
   };
+
+  useEffect(() => {
+    if (!authCtx.loading && authCtx.isLoggedIn) {
+      router.push('/dashboard');
+    }
+  }, [authCtx.loading, authCtx.isLoggedIn, router]);
+  
+  // if (authCtx.loading) {
+  //   return <div>Checking login status...</div>;
+  // }
 
   return (
     <div className="container">

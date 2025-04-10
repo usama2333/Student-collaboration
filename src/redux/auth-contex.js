@@ -1,3 +1,4 @@
+// redux/auth-contex.js (make sure file name matches)
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -10,13 +11,14 @@ const AuthContext = React.createContext({
   isLoggedIn: false,
   login: (token) => {},
   logout: () => {},
-  email: '',
-  name: '',
+  loading: true,
 });
 
 export const AuthContextProvider = (props) => {
   const dispatch = useDispatch();
-  const [token, setToken] = useState(null); // Don't access localStorage directly here
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true); // 👈 Track auth check
+
   const userIsLoggedIn = !!token;
 
   useEffect(() => {
@@ -27,6 +29,7 @@ export const AuthContextProvider = (props) => {
     } else {
       dispatch(setLogin(false));
     }
+    setLoading(false); // 👈 Done checking
   }, [dispatch]);
 
   const logoutHandler = () => {
@@ -34,26 +37,21 @@ export const AuthContextProvider = (props) => {
     localStorage.removeItem('token');
     dispatch(setLogin(false));
     Swal.fire('Logged out!', 'See you soon', 'success');
-    console.log('Token is removed from localStorage');
   };
 
-  const loginHandler = (token, email, name, id) => {
+  const loginHandler = (token) => {
     setToken(token);
     localStorage.setItem('token', token);
     dispatch(setLogin(true));
-    console.log('Data is stored in localStorage:', token);
   };
 
   const contextValue = {
-    token: token,
+    token,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
+    loading,
   };
-
-  useEffect(() => {
-    console.log(userIsLoggedIn, 'log state');
-  }, [userIsLoggedIn]);
 
   return (
     <AuthContext.Provider value={contextValue}>
