@@ -9,7 +9,7 @@ export default async function addUserApi(data, toast) {
 
     const response = await axios({
       method: "post", 
-      url: "http://localhost:3000/api/users/update", 
+      url: "http://localhost:5000/api/users/update", 
       headers: {
         "Content-Type": "application/json", // Make sure this header is set
         "Authorization": `Bearer ${token}`, // Add Authorization header

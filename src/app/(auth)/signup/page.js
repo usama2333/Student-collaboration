@@ -14,6 +14,7 @@ export default function Signup() {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -23,7 +24,7 @@ export default function Signup() {
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
     signUpApi(data, router, toast, setTimeout);
-    reset();
+    // reset();
   };
 
   return (

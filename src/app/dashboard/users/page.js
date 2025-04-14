@@ -1,18 +1,36 @@
 "use client"
 
+import deleteUserApi from "@/app/api/deleteUserApi";
 import "../../styles/users.css";
 import getUsersApi from "@/app/api/getUserApi";
 import React, { useEffect, useState } from "react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
-
+import { ToastContainer, toast } from "react-toastify";
 
 const Users = () => {
   const [users, setUsers] = useState([]); // State to store users data
+  const [currentRole, setCurrentRole] = useState(null);
+
+  const deleteHandler = async (id) => {
+    console.log(id, 'id.....................')
+    const response = await deleteUserApi(id, toast)
+    if (response?.success || true) { // optional check
+      setTimeout(() => {
+        setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
+      }, 1000); // 1 second delay
+    }
+
+  }
 
   useEffect(() => {
-    // Fetch users when the component is mounted
+    const token = localStorage.getItem("token");
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1])); // decode JWT
+      setCurrentRole(payload.role);
+    }
+
     getUsersApi({ setUsers });
-  }, []); // Empty dependency array to run only on mount
+  }, []);
 
   return (
     <div className="table-container">
@@ -44,7 +62,24 @@ const Users = () => {
                 <td className="icon-container">
                   <FaEye className="icon view-icon" title="View" />
                   <FaEdit className="icon edit-icon" title="Edit" />
-                  <FaTrash className="icon delete-icon" title="Delete" />
+                  {
+                    currentRole !== "user" && (
+                      <div onClick={() => deleteHandler(item?._id)}>
+                        <FaTrash className="icon delete-icon" title="Delete" />
+                      </div>
+                    )
+                  }
+                  {/* <div
+                   onClick={() => {
+                     if (currentRole !== "user") {
+                       deleteHandler(item?._id);
+                     }
+                   }}
+                   style={{ cursor: currentRole === "user" ? "not-allowed" : "pointer", opacity: currentRole === "user" ? 0.5 : 1 }}
+                 >
+                   <FaTrash className="icon delete-icon" title="Delete" />
+                 </div> */}
+
                 </td>
               </tr>
             ))
@@ -55,6 +90,7 @@ const Users = () => {
           )}
         </tbody>
       </table>
+      <ToastContainer />
     </div>
   );
 };

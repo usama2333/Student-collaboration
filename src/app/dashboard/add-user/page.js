@@ -26,13 +26,14 @@ export default function AddUsers() {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
     addUserApi(data, toast);
-    reset();
+    // reset();
   };
 
   return (

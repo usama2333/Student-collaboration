@@ -4,7 +4,7 @@ export default async function signUpApi(data,router, toast, setTimeout ) {
   try {
     const response = await axios({
       method: "post",
-      url: "http://localhost:3000/api/auth/signup",
+      url: "http://localhost:5000/api/auth/signup",
       data: {
         name: data.name,
         email: data.email,

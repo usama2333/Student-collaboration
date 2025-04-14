@@ -23,6 +23,7 @@ export default function Login() {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -32,7 +33,7 @@ export default function Login() {
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
     loginApi(data,authCtx,router,toast,setTimeout);
-    reset();
+    // reset();
   };
 
   useEffect(() => {

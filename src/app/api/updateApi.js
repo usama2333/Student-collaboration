@@ -5,7 +5,7 @@ export default async function updateApi(token, data, toast, router, setTimeout) 
     const { password, confirmPassword } = data;
 
     const response = await axios.post(
-      `http://localhost:3000/api/auth/reset-password/${token}`,
+      `http://localhost:5000/api/auth/reset-password/${token}`,
       {
         password,
         confirmPassword,

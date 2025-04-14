@@ -1,27 +1,25 @@
 import axios from "axios";
 
-export default async function loginApi(
-    data,
-    authCtx,
-    router,
-    toast,
-    setTimeout
-) {
+export default async function deleteUserApi(id, toast) {
     try {
+        const token = localStorage.getItem('token');
+        console.log(token,'token');
+        console.log(id,'id..........')
         const response = await axios({
-            method: "post",
-            url: "http://localhost:5000/api/auth/login",
-            data: {
-                email: data.email,
-                password: data.password,
+            method: "delete",
+            url: `http://localhost:5000/api/users/${id}`,
+            headers: {
+                "Content-Type": "application/json", // Make sure this header is set
+                "Authorization": `Bearer ${token}`, // Add Authorization header
             },
+
         });
 
         if (response.status === 200 || response.status === 201) {
-            console.log(response, "login response.......");
-            console.log(response.data.token, "token..............");
 
-            toast.success("Signup successful!", {
+            console.log(response, 'user deleted successfully.......')
+            //   notify('User deleted successfully');
+            toast.success("User deleted Successfully", {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -31,18 +29,12 @@ export default async function loginApi(
                 theme: "light",
             });
 
-            setTimeout(() => {
-                router.push("/dashboard");
-            }, 1000);
-
-            authCtx.login(
-                response.data.token,
-            );
-
         }
     } catch (error) {
         console.log(error.message);
-        toast.error(`Signup Error! ${error.message}`, {
+
+        // notify(error.message);
+        toast.success(`Error: ${error.message}`, {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
