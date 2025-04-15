@@ -1,0 +1,46 @@
+import axios from "axios";
+
+export default async function logoutApi(authCtx, router, toast, setTimeout) {
+    try {
+        const token = localStorage.getItem("token");
+
+        const response = await axios.post(
+            "http://localhost:5000/api/auth/logout",
+            {},
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        if (response.status === 200) {
+        
+            await authCtx.logout();
+            toast.success("Logged out successfully", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "light",
+            });
+
+            setTimeout(() => {
+                router.push("/login");
+            }, 1000);
+        }
+    } catch (error) {
+        toast.error(`Logout failed: ${error.message}`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "light",
+        });
+    }
+}

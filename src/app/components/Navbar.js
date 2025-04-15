@@ -10,6 +10,8 @@ import { usePathname } from "next/navigation";
 import { routeMap } from "@/constants/routes";
 import AuthContext from "@/redux/auth-contex";
 import { useRouter } from "next/navigation";
+import logoutApi from "../api/logoutApi";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
   const authCtx = useContext(AuthContext);
@@ -20,10 +22,8 @@ export default function Navbar() {
   const activePage = routeMap[pathname] || "DASHBOARD"; 
 
   const handleLogout = () => {
-    authCtx.logout();
-    setTimeout(() => {
-      router.push("/login"); 
-    }, 1000); 
+ 
+    logoutApi(authCtx,router,toast,setTimeout)
   };
 
   return (
@@ -52,7 +52,7 @@ export default function Navbar() {
               <li ><Link href="/dashboard">Dashboard</Link></li>
               <li ><Link href="/dashboard/users">Users</Link></li>
               <li ><Link href="/dashboard/add-user">Add User</Link></li>
-              <li ><Link href="/login" onClick={handleLogout}>Logout</Link></li>
+              <li onClick={handleLogout}>Logout</li>
             </ul>
           </div>
         )}

@@ -62,23 +62,36 @@ const Users = () => {
                 <td className="icon-container">
                   <FaEye className="icon view-icon" title="View" />
                   <FaEdit className="icon edit-icon" title="Edit" />
-                  {
+                  {/* {
                     currentRole !== "user" && (
                       <div onClick={() => deleteHandler(item?._id)}>
                         <FaTrash className="icon delete-icon" title="Delete" />
                       </div>
                     )
-                  }
-                  {/* <div
-                   onClick={() => {
-                     if (currentRole !== "user") {
-                       deleteHandler(item?._id);
-                     }
-                   }}
-                   style={{ cursor: currentRole === "user" ? "not-allowed" : "pointer", opacity: currentRole === "user" ? 0.5 : 1 }}
-                 >
-                   <FaTrash className="icon delete-icon" title="Delete" />
-                 </div> */}
+                  } */}
+                 <div
+  onClick={() => {
+    if (currentRole !== "user") {
+      deleteHandler(item?._id);
+    } else {
+      toast.error("Unauthorized: You do not have permission to delete users", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
+    }
+  }}
+  style={{
+    cursor: currentRole === "user" ? "not-allowed" : "pointer"
+  }}
+>
+  <FaTrash className="icon delete-icon" title="Delete" />
+</div>
+
 
                 </td>
               </tr>
