@@ -13,6 +13,7 @@ export default function ChatPopup({ user, onClose,userData }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [file, setFile] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const socket = getSocket();
 //   const userData = JSON.parse(localStorage.getItem('user'));
   const messagesEndRef = useRef(null);
@@ -62,12 +63,18 @@ export default function ChatPopup({ user, onClose,userData }) {
       formData.append('file', file);
 
       try {
-        const response = await axios.post('/api/chat/upload', formData, {
+        const response = await axios.post('http://localhost:5000/api/chat/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
+          onUploadProgress: (progressEvent) => {
+            const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            setUploadProgress(percent);
+          },
         });
+           // Reset progress after success
+    setUploadProgress(0);
         fileUrl = response.data.fileUrl;
         type = file.type.startsWith('image/')
           ? 'image'
@@ -75,6 +82,7 @@ export default function ChatPopup({ user, onClose,userData }) {
           ? 'audio'
           : 'file';
       } catch (error) {
+        setUploadProgress(0);
         console.error('File upload failed:', error);
         return;
       }
@@ -184,6 +192,11 @@ export default function ChatPopup({ user, onClose,userData }) {
           style={{ display: 'none' }}
           onChange={handleFileChange}
         />
+        {uploadProgress > 0 && (
+  <div className="progress-bar-container">
+    <div className="progress-bar" style={{ width: `${uploadProgress}%` }}></div>
+  </div>
+)}
         <button onClick={sendMessage}>Send</button>
       </div>
     </div>
