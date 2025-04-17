@@ -4,7 +4,7 @@ import "../styles/navbar.css";
 import Image from "next/image";
 import { pie } from "../utils/images";
 import { FaBell,  } from "react-icons/fa";
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { routeMap } from "@/constants/routes";
@@ -14,8 +14,11 @@ import logoutApi from "../api/logoutApi";
 import { toast } from "react-toastify";
 
 export default function Navbar() {
+  // localStorage.removeItem('token');
+  // localStorage.removeItem('user');
   const authCtx = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState({ name: '', email: '' });
   const pathname = usePathname();
   const router = useRouter();
  
@@ -25,6 +28,21 @@ export default function Navbar() {
  
     logoutApi(authCtx,router,toast,setTimeout)
   };
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const parsed = JSON.parse(userData);
+        setUser({
+          name: parsed.name || 'No Name',
+          email: parsed.email || 'No Email',
+        });
+      } catch (err) {
+        console.error('Error parsing user data:', err);
+      }
+    }
+  }, []);
 
   return (
     <nav className="navbar">
@@ -37,8 +55,8 @@ export default function Navbar() {
             <span className="badge">5</span>
           </div>
           <div>
-            <p className="name_text">User Name</p>
-            <p className="email_text">CS189022.gmail.com</p>
+            <p className="name_text">{user.name}</p>
+            <p className="email_text">{user.email}</p>
           </div>
           <Image
             src={pie}

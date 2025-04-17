@@ -37,6 +37,7 @@ export default async function loginApi(
 
             authCtx.login(
                 response.data.token,
+                response.data.user,
             );
 
         }

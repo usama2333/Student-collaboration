@@ -37,6 +37,12 @@ export default function Sidebar() {
               <p>Add User</p>
             </Link>
           </li>
+          {/* <li>
+            <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/chat" className="nav-link">
+              <Image src={user} alt="User Icon" />
+              <p>Chat</p>
+            </Link>
+          </li> */}
         </ul>
       </nav>
     </aside>

@@ -9,7 +9,7 @@ import { setLogin } from './features/dashboardSlice';
 const AuthContext = React.createContext({
   token: '',
   isLoggedIn: false,
-  login: (token) => {},
+  login: (token,user) => {},
   logout: () => {},
   loading: true,
 });
@@ -35,13 +35,15 @@ export const AuthContextProvider = (props) => {
   const logoutHandler = () => {
     setToken(null);
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     dispatch(setLogin(false));
     Swal.fire('Logged out!', 'See you soon', 'success');
   };
 
-  const loginHandler = (token) => {
+  const loginHandler = (token,user) => {
     setToken(token);
     localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user))
     dispatch(setLogin(true));
   };
 

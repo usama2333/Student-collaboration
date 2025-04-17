@@ -1,16 +1,18 @@
 "use client"
 
-import deleteUserApi from "@/app/api/deleteUserApi";
 import "../../styles/users.css";
+import deleteUserApi from "@/app/api/deleteUserApi";
 import getUsersApi from "@/app/api/getUserApi";
+import ChatPopup from "@/app/components/ChatPopup";
 import React, { useEffect, useState } from "react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 
+
 const Users = () => {
   const [users, setUsers] = useState([]); // State to store users data
   const [currentRole, setCurrentRole] = useState(null);
-
+  const [activeChatUser, setActiveChatUser] = useState(null);
   const deleteHandler = async (id) => {
     console.log(id, 'id.....................')
     const response = await deleteUserApi(id, toast)
@@ -39,7 +41,7 @@ const Users = () => {
           <tr>
             <th>Name</th>
             <th>Department</th>
-            <th>DOB</th>
+            <th>Email</th>
             <th>Role</th>
             <th>Actions</th>
           </tr>
@@ -50,7 +52,7 @@ const Users = () => {
               <tr key={index}>
                 <td>{item.name}</td>
                 <td>{item.department}</td>
-                <td>{item.dob}</td>
+                <td>{item.email}</td>
                 <td>{item.role}</td>
                 {/* <td
                   className={
@@ -61,7 +63,7 @@ const Users = () => {
                 </td> */}
                 <td className="icon-container">
                   <FaEye className="icon view-icon" title="View" />
-                  <FaEdit className="icon edit-icon" title="Edit" />
+                  <FaEdit className="icon edit-icon" title="Chat" onClick={() => setActiveChatUser(item)}/>
                   {/* {
                     currentRole !== "user" && (
                       <div onClick={() => deleteHandler(item?._id)}>
@@ -69,28 +71,28 @@ const Users = () => {
                       </div>
                     )
                   } */}
-                 <div
-  onClick={() => {
-    if (currentRole !== "user") {
-      deleteHandler(item?._id);
-    } else {
-      toast.error("Unauthorized: You do not have permission to delete users", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      });
-    }
-  }}
-  style={{
-    cursor: currentRole === "user" ? "not-allowed" : "pointer"
-  }}
->
-  <FaTrash className="icon delete-icon" title="Delete" />
-</div>
+                  <div
+                    onClick={() => {
+                      if (currentRole !== "user") {
+                        deleteHandler(item?._id);
+                      } else {
+                        toast.error("Unauthorized: You do not have permission to delete users", {
+                          position: "top-right",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          theme: "light",
+                        });
+                      }
+                    }}
+                    style={{
+                      cursor: currentRole === "user" ? "not-allowed" : "pointer"
+                    }}
+                  >
+                    <FaTrash className="icon delete-icon" title="Delete" />
+                  </div>
 
 
                 </td>
@@ -103,6 +105,12 @@ const Users = () => {
           )}
         </tbody>
       </table>
+      {activeChatUser && (
+        <ChatPopup
+          user={activeChatUser}
+          onClose={() => setActiveChatUser(null)}
+        />
+      )}
       <ToastContainer />
     </div>
   );

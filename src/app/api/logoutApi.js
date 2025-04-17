@@ -16,7 +16,7 @@ export default async function logoutApi(authCtx, router, toast, setTimeout) {
         );
 
         if (response.status === 200) {
-        
+
             await authCtx.logout();
             toast.success("Logged out successfully", {
                 position: "top-right",
@@ -33,14 +33,18 @@ export default async function logoutApi(authCtx, router, toast, setTimeout) {
             }, 1000);
         }
     } catch (error) {
-        toast.error(`Logout failed: ${error.message}`, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            theme: "light",
-        });
+        await authCtx.logout();
+        setTimeout(() => {
+            router.push("/login");
+        }, 1000);
+        // toast.error(`Logout failed: ${error.message}`, {
+        //     position: "top-right",
+        //     autoClose: 3000,
+        //     hideProgressBar: false,
+        //     closeOnClick: true,
+        //     pauseOnHover: true,
+        //     draggable: true,
+        //     theme: "light",
+        // });
     }
 }
