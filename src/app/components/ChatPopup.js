@@ -7,13 +7,14 @@ import { FaTimes, FaPaperclip } from 'react-icons/fa';
 import axios from 'axios';
 import getMessagesApi from '@/app/api/getMessagesApi';
 
-export default function ChatPopup({ user, onClose }) {
+export default function ChatPopup({ user, onClose,userData }) {
     console.log(user,'llllllllllllllllllllllllll')
+    console.log(userData,'LLLLLLLLLLLLLLLLLLLLLL')
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [file, setFile] = useState(null);
   const socket = getSocket();
-  const userData = JSON.parse(localStorage.getItem('user'));
+//   const userData = JSON.parse(localStorage.getItem('user'));
   const messagesEndRef = useRef(null);
 
   useEffect(() => {

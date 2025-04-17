@@ -13,3 +13,11 @@ export const getSocket = () => {
   }
   return socket;
 };
+
+export const resetSocket = () => {
+    if (socket) {
+      socket.disconnect();
+      socket = null;
+    }
+  };
+  

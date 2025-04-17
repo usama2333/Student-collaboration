@@ -13,6 +13,8 @@ const Users = () => {
   const [users, setUsers] = useState([]); // State to store users data
   const [currentRole, setCurrentRole] = useState(null);
   const [activeChatUser, setActiveChatUser] = useState(null);
+  const [userData, setUserData] = useState('')
+
   const deleteHandler = async (id) => {
     console.log(id, 'id.....................')
     const response = await deleteUserApi(id, toast)
@@ -23,6 +25,19 @@ const Users = () => {
     }
 
   }
+  const handleChatClick = (selectedUser) => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUserData(parsedUser); // update logged-in user
+      setActiveChatUser(selectedUser); // update selected chat user
+      console.log("Logged in as:", parsedUser.email);
+      console.log("Chatting with:", selectedUser.email);
+    } else {
+      console.warn("No user found in localStorage.");
+    }
+  };
+  
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -33,6 +48,14 @@ const Users = () => {
 
     getUsersApi({ setUsers });
   }, []);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUserData(JSON.parse(storedUser));
+    }
+  }, []);
+  
 
   return (
     <div className="table-container">
@@ -63,7 +86,7 @@ const Users = () => {
                 </td> */}
                 <td className="icon-container">
                   <FaEye className="icon view-icon" title="View" />
-                  <FaEdit className="icon edit-icon" title="Chat" onClick={() => setActiveChatUser(item)}/>
+                  <FaEdit className="icon edit-icon" title="Chat" onClick={() => handleChatClick(item)}/>
                   {/* {
                     currentRole !== "user" && (
                       <div onClick={() => deleteHandler(item?._id)}>
@@ -108,6 +131,7 @@ const Users = () => {
       {activeChatUser && (
         <ChatPopup
           user={activeChatUser}
+          userData={userData}
           onClose={() => setActiveChatUser(null)}
         />
       )}

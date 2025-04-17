@@ -1,4 +1,5 @@
 import axios from "axios";
+import { resetSocket } from "../utils/socket";
 
 export default async function logoutApi(authCtx, router, toast, setTimeout) {
     try {
@@ -18,6 +19,7 @@ export default async function logoutApi(authCtx, router, toast, setTimeout) {
         if (response.status === 200) {
 
             await authCtx.logout();
+            resetSocket();
             toast.success("Logged out successfully", {
                 position: "top-right",
                 autoClose: 3000,
@@ -34,6 +36,7 @@ export default async function logoutApi(authCtx, router, toast, setTimeout) {
         }
     } catch (error) {
         await authCtx.logout();
+        resetSocket();
         setTimeout(() => {
             router.push("/login");
         }, 1000);
