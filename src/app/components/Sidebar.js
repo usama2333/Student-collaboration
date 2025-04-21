@@ -46,7 +46,7 @@ export default function Sidebar() {
             </Link>
           </li>
           <li>
-            <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard" className="nav-link">
+            <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/add-user" className="nav-link">
             <FaUserPlus  size={24} />
               <p>Add User</p>
             </Link>
