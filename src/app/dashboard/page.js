@@ -11,11 +11,15 @@ import sendMagicLinkApi from '../api/sendMagicLinkApi';
 export default function Dashboard() {
   const [users, setUsers] = useState([]);
   const [email, setEmail] = useState("");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const userData = JSON.parse(localStorage.getItem('user'));
 
   const handleSendLink = async () => {
+    if (isButtonDisabled) return;
+
+    setIsButtonDisabled(true);
     if (email) {
-      await sendMagicLinkApi(email,toast,setEmail);  
+      await sendMagicLinkApi(email, toast, setEmail);
     } else {
       toast.error(`Enter valid email`, {
         position: "top-right",
@@ -27,6 +31,9 @@ export default function Dashboard() {
         theme: "light",
       });
     }
+    setTimeout(() => {
+      setIsButtonDisabled(false); // Re-enable button after 5s
+    }, 4000);
   };
 
   useEffect(() => {
@@ -63,14 +70,14 @@ export default function Dashboard() {
 
             </div>
             <div className="email-form-group">
-            <input
+              <input
                 type="email"
                 className="email-input"
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)} // Handle email input
               />
-              <button className="send-link-btn" onClick={handleSendLink}>
+              <button style={{ opacity: isButtonDisabled ? 0.5 : 1, cursor: isButtonDisabled ? 'not-allowed' : 'pointer' }} className="send-link-btn" onClick={handleSendLink}>
                 Send Link <span style={{ marginLeft: '5px' }}>✉️</span>
               </button>
             </div>
