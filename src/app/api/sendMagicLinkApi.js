@@ -1,13 +1,14 @@
 import axios from 'axios';
 
 // API function to send the magic link email
-export default async function sendMagicLinkApi(email, toast,setEmail) {
+export default async function sendMagicLinkApi(email, toast,setEmail,setAnimateSend) {
   try {
     const response = await axios.post("http://localhost:5000/api/send-magic-link", {
       to: email,  
     });
 
     if (response.status === 200) {
+        setAnimateSend(true);
       toast.success("Send Link successfully!", {
         position: "top-right",
         autoClose: 3000,

@@ -3,8 +3,8 @@
 import "../styles/sidebar.css";
 import Link from "next/link";
 import Image from "next/image";
-import { logo, dashboard, user } from "../utils/images"; 
-import { FaSignOutAlt,FaUser, FaUserPlus,FaTachometerAlt  } from 'react-icons/fa';  
+import { logo } from "../utils/images"; 
+import { FaSignOutAlt,FaUser, FaUserPlus,FaTachometerAlt,FaAddressCard } from 'react-icons/fa';  
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
@@ -35,25 +35,31 @@ export default function Sidebar() {
         <ul>
           <li>
             <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard" className="nav-link">
-            <FaTachometerAlt  size={24} />
+            <FaTachometerAlt  size={22} />
               <p>Dashboard</p>
             </Link>
           </li>
           <li>
             <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/users" className="nav-link">
-            <FaUser size={24} />
+            <FaUser size={22} />
               <p>Users</p>
             </Link>
           </li>
           <li>
             <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/add-user" className="nav-link">
-            <FaUserPlus  size={24} />
+            <FaUserPlus  size={22} />
               <p>Add User</p>
+            </Link>
+          </li>
+          <li>
+            <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/user-details" className="nav-link">
+            <FaAddressCard   size={22} />
+              <p>User Details</p>
             </Link>
           </li>
           <li style={{position:'absolute', bottom: '40px',width:'250px', cursor:'pointer'}} onClick={handleLogout}>
             <a style={{display:'flex', alignItems:'center',gap:'10px'}} className="nav-link">
-            <FaSignOutAlt size={24} />
+            <FaSignOutAlt size={22} />
               <p>Logout</p>
             </a>
           </li>  

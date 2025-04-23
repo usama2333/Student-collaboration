@@ -70,6 +70,7 @@ export default function Navbar() {
               <li ><Link href="/dashboard">Dashboard</Link></li>
               <li ><Link href="/dashboard/users">Users</Link></li>
               <li ><Link href="/dashboard/add-user">Add User</Link></li>
+              <li ><Link href="/dashboard/add-user">Add User</Link></li>
               <li onClick={handleLogout}>Logout</li>
             </ul>
           </div>

@@ -141,6 +141,34 @@
   }
   
   .send-link-btn:hover {
-    background-color: #f3f3f3;
+    background-color: #e66f52 ;
+    color:#fff;
+    box-shadow: 0 0 0 1px rgba(203, 81, 81, 0.8), 0 0 2px rgba(0, 0, 0, 0.2);
+  }
+  
+  .fly-up-animation {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    animation: flyUp 1s ease-in-out forwards;
+    z-index: 999;
+    pointer-events: none;
+  }
+  
+  @keyframes flyUp {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: translate(-50%, -120%) scale(1.2);
+      opacity: 0.9;
+    }
+    100% {
+      transform: translate(-50%, -250%) scale(0.8);
+      opacity: 0;
+    }
   }
   

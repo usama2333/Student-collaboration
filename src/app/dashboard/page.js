@@ -11,15 +11,16 @@ import sendMagicLinkApi from '../api/sendMagicLinkApi';
 export default function Dashboard() {
   const [users, setUsers] = useState([]);
   const [email, setEmail] = useState("");
+  const [animateSend, setAnimateSend] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const userData = JSON.parse(localStorage.getItem('user'));
 
   const handleSendLink = async () => {
     if (isButtonDisabled) return;
-
+    
     setIsButtonDisabled(true);
     if (email) {
-      await sendMagicLinkApi(email, toast, setEmail);
+      await sendMagicLinkApi(email, toast, setEmail,setAnimateSend);
     } else {
       toast.error(`Enter valid email`, {
         position: "top-right",
@@ -34,6 +35,7 @@ export default function Dashboard() {
     setTimeout(() => {
       setIsButtonDisabled(false); // Re-enable button after 5s
     }, 4000);
+    setTimeout(() => setAnimateSend(false), 1500);
   };
 
   useEffect(() => {
@@ -69,7 +71,7 @@ export default function Dashboard() {
             <div style={{ display: 'flex', alignItems: 'center' }}>
 
             </div>
-            <div className="email-form-group">
+            <div style={{ position: 'relative' }} className="email-form-group">
               <input
                 type="email"
                 className="email-input"
@@ -80,6 +82,10 @@ export default function Dashboard() {
               <button style={{ opacity: isButtonDisabled ? 0.5 : 1, cursor: isButtonDisabled ? 'not-allowed' : 'pointer' }} className="send-link-btn" onClick={handleSendLink}>
                 Send Link <span style={{ marginLeft: '5px' }}>✉️</span>
               </button>
+              {animateSend && (
+                <div className="fly-up-animation">📤</div>
+              )}
+
             </div>
           </div>
         </div>
