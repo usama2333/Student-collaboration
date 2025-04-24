@@ -1,10 +1,20 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from "next/image";
 import { emptyUser, logo, QR } from '../utils/images';
 import { FaFilePdf } from 'react-icons/fa';
 
 const Model = ({ setShowModal, userData }) => {
     const printRef = useRef();
+    const [isClosing, setIsClosing] = useState(false);
+
+    const handleClose = () => {
+        setIsClosing(true);
+        setTimeout(() => {
+            setShowModal(false);
+        }, 400); // Matches fadeOutScale duration
+    };
+
+
     const printHandler = () => {
         const printContent = printRef.current.innerHTML;
         const printWindow = window.open('', '', 'width=800,height=600');
@@ -20,8 +30,11 @@ const Model = ({ setShowModal, userData }) => {
     };
     return (
         <div>
-            <div className="modal-overlay" onClick={() => setShowModal(false)}>
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-overlay" onClick={handleClose}>
+                <div
+                    className={`modal-content ${isClosing ? 'closing' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                >
                     <h2 className="modal-title">Identity Card</h2>
                     <div className="modal-body" ref={printRef}>
                         <div className='card-row'>
@@ -88,7 +101,7 @@ const Model = ({ setShowModal, userData }) => {
 
                         </div>
                     </div>
-                    <button className="close-btn" onClick={() => setShowModal(false)}>❌</button>
+                    <button className="close-btn" onClick={handleClose}>❌</button>
                 </div>
             </div>
         </div>
