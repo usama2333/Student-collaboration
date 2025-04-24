@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // Initial state for counter
 const initialState = { 
-  login: false
+  login: false,
+  view: []
 };
 
 // Creating Redux slice for counter
@@ -12,12 +13,15 @@ const dashboardSlice = createSlice({
   reducers: {
     setLogin(state, action) {
         state.login = action.payload;
-      }
+      },
+      setView(state, action) {
+        state.view = action.payload;
+      },
   },
 });
 
 // Export actions
-export const { setLogin } = dashboardSlice.actions;
+export const { setLogin,setView } = dashboardSlice.actions;
 
 // Export reducer
 export default dashboardSlice.reducer;

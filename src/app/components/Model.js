@@ -3,7 +3,7 @@ import Image from "next/image";
 import { emptyUser, logo, QR } from '../utils/images';
 import { FaFilePdf } from 'react-icons/fa';
 
-const Model = ({ setShowModal }) => {
+const Model = ({ setShowModal,userData  }) => {
     return (
         <div>
             <div className="modal-overlay" onClick={() => setShowModal(false)}>
@@ -21,8 +21,8 @@ const Model = ({ setShowModal }) => {
                                     <Image src={emptyUser} width={100} height={100} alt='profile' />
                                 </div>
                                 <div className='name-div'>
-                                    <h3>Usama Ahmed</h3>
-                                    <p>Engineer</p>
+                                    <h3>{userData?.name}</h3>
+                                    <p>{userData?.department}</p>
                                 </div>
                                 <div className='card-details-row'>
                                     <div className='detail-keys'>
@@ -36,12 +36,12 @@ const Model = ({ setShowModal }) => {
                                     </div>
                                     <div className='detail-values'>
 
-                                        <p>03000000000</p>
-                                        <p>33333333333</p>
-                                        <p>12-12-2024</p>
-                                        <p>Engenering</p>
-                                        <p>12-03-2025</p>
-                                        <p>usama.wizz@gmail.com</p>
+                                        <p>{userData?.phone}</p>
+                                        <p>{userData?.cnic}</p>
+                                        <p>{userData?.dob.slice(0, 10)}</p>
+                                        <p>{userData?.department}</p>
+                                        <p>{userData?.createdAt.slice(0, 10)}</p>
+                                        <p>{userData?.email}</p>
 
                                     </div>
                                 </div>
