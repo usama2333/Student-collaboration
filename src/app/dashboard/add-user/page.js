@@ -3,13 +3,20 @@
 import "../../styles/adduser.css";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import addUserApi from "@/app/api/addUserApi";
+import { clearEditData } from "@/redux/features/dashboardSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 
 export default function AddUsers() {
   // for handling image
   const [selectedImage, setSelectedImage] = useState(null);
+  const editData = useSelector((state) => state.dashboard.edit);
+
+   const dispatch = useDispatch();
+  console.log(editData, 'Edit data .................')
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -22,6 +29,8 @@ export default function AddUsers() {
     document.getElementById("imageInput").click();
   };
 
+
+
   const {
     register,
     handleSubmit,
@@ -33,8 +42,16 @@ export default function AddUsers() {
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
     addUserApi(data, toast);
+    dispatch(clearEditData())
     // reset();
   };
+
+    // Inside the component...
+    useEffect(() => {
+      if (editData) {
+        reset(editData); // ✅ Now reset is defined
+      }
+    }, [editData, reset]);
 
   return (
     <>
@@ -69,9 +86,8 @@ export default function AddUsers() {
                 <div className="form-group">
                   <label
                     htmlFor="email"
-                    className={`form-label ${
-                      errors.email ? "error-label" : ""
-                    }`}
+                    className={`form-label ${errors.email ? "error-label" : ""
+                      }`}
                   >
                     Email{" "}
                     {errors.email && <span className="error-asterisk">*</span>}
@@ -93,9 +109,8 @@ export default function AddUsers() {
                 <div className="form-group">
                   <label
                     htmlFor="dob"
-                    className={`form-label ${
-                      errors.dob ? "error-label" : ""
-                    }`}
+                    className={`form-label ${errors.dob ? "error-label" : ""
+                      }`}
                   >
                     DOB{" "}
                     {errors.dob && (
@@ -139,9 +154,8 @@ export default function AddUsers() {
                 <div className="form-group">
                   <label
                     htmlFor="department"
-                    className={`form-label ${
-                      errors.department ? "error-label" : ""
-                    }`}
+                    className={`form-label ${errors.department ? "error-label" : ""
+                      }`}
                   >
                     Department{" "}
                     {errors.department && (
@@ -228,9 +242,8 @@ export default function AddUsers() {
                 <div className="form-group">
                   <label
                     htmlFor="phone"
-                    className={`form-label ${
-                      errors.phone ? "error-label" : ""
-                    }`}
+                    className={`form-label ${errors.phone ? "error-label" : ""
+                      }`}
                   >
                     Phone{" "}
                     {errors.phone && <span className="error-asterisk">*</span>}
@@ -264,9 +277,8 @@ export default function AddUsers() {
                 <div className="form-group">
                   <label
                     htmlFor="address"
-                    className={`form-label ${
-                      errors.address ? "error-label" : ""
-                    }`}
+                    className={`form-label ${errors.address ? "error-label" : ""
+                      }`}
                   >
                     Address{" "}
                     {errors.address && (
@@ -288,7 +300,7 @@ export default function AddUsers() {
 
             {/* Submit Button */}
             <button type="submit" className="create-button">
-              Create
+              {editData ? "Update" : "Create"}
             </button>
           </form>
         </div>

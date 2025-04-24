@@ -10,7 +10,9 @@ import Model from '@/app/components/Model';
 import getUsersApi from '@/app/api/getUserApi';
 import { useSelector, useDispatch } from "react-redux";
 import { RxCross2 } from 'react-icons/rx';
-import { clearViewData } from '@/redux/features/dashboardSlice';
+import { clearViewData, setEdit } from '@/redux/features/dashboardSlice';
+import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
 
 
 const page = () => {
@@ -19,12 +21,16 @@ const page = () => {
   const [currentRole, setCurrentRole] = useState(null);
   const [displayedUser, setDisplayedUser] = useState(null);
   const viewData = useSelector((state) => state.dashboard.view);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleClearView = () => {
     dispatch(clearViewData()); // You'll need to create this action in your slice
   };
+
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -50,6 +56,30 @@ const page = () => {
     }
   }, [viewData, currentUserData]);
 
+  const handleViewClick = () => {
+    if (currentRole?.role !== "user") {
+      dispatch(setEdit(displayedUser))
+    router.push('/dashboard/add-user');
+    } else {
+      // Show the toast for unauthorized users
+      toast.error("Unauthorized: You do not have permission to Edit users", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
+
+      // Disable the button for a short duration (e.g., 3 seconds)
+      setIsDisabled(true);
+      setTimeout(() => {
+        setIsDisabled(false); // Re-enable after 3 seconds
+      }, 3000);
+    }
+  };
+
   return (
     <div className='user-details-con' style={{ position: 'relative' }}>
       <div className='main-row'>
@@ -71,9 +101,20 @@ const page = () => {
               <button className="download-btn" onClick={() => setShowModal(true)}>
                 <FiDownload /> Download
               </button>
-              <button className="edit-btn">
-                <FiEdit /> Edit User
-              </button>
+
+              <div
+      onClick={handleViewClick}
+      style={{
+        cursor: currentRole?.role === "user" || isDisabled ? "not-allowed" : "pointer",
+      }}
+    >
+      <button
+        className="edit-btn"
+        disabled={isDisabled} // Disable the button temporarily
+      >
+        <FiEdit /> Edit User
+      </button>
+    </div>
             </div>
           </div>
 
@@ -128,7 +169,7 @@ const page = () => {
           <RxCross2 size={22} />
         </button>
       )}
-
+<ToastContainer />
     </div>
   )
 }
