@@ -95,3 +95,15 @@
     }
   }
   
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #888;
+    font-size: 16px;
+  }
+  
+  .empty-state svg {
+    color: #fe8062;
+    margin-bottom: 10px;
+  }
+  

@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setView } from "@/redux/features/dashboardSlice";
 import { useRouter } from "next/navigation";
+import { FiUserX } from 'react-icons/fi';
 
 
 
@@ -36,7 +37,7 @@ const Users = () => {
     const viewData = users.filter((item) => item._id === id);
     dispatch(setView(viewData))
     router.push('/dashboard/user-details');
-    
+
 
   }
   const handleChatClick = (selectedUser) => {
@@ -51,7 +52,7 @@ const Users = () => {
       console.warn("No user found in localStorage.");
     }
   };
-  
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -69,7 +70,7 @@ const Users = () => {
       setUserData(JSON.parse(storedUser));
     }
   }, []);
-  
+
 
   return (
     <div className="table-container">
@@ -99,7 +100,7 @@ const Users = () => {
                   {item.status}
                 </td> */}
                 <td className="icon-container">
-                <div
+                  <div
                     onClick={() => {
                       if (currentRole !== "user") {
                         editHandler(item?._id);
@@ -123,7 +124,7 @@ const Users = () => {
                     <FaEye className="icon view-icon" title="View" />
                   </div>
                   {/* <FaEye className="icon view-icon" title="View" /> */}
-                  <FaEdit className="icon edit-icon" title="Chat" onClick={() => handleChatClick(item)}/>
+                  <FaEdit className="icon edit-icon" title="Chat" onClick={() => handleChatClick(item)} />
                   {/* {
                     currentRole !== "user" && (
                       <div onClick={() => deleteHandler(item?._id)}>
@@ -160,7 +161,12 @@ const Users = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="5">No users found</td>
+              <td colSpan="5">
+                <div className="empty-state">
+                  <FiUserX size={48} />
+                  <p>No users found</p>
+                </div>
+              </td>
             </tr>
           )}
         </tbody>

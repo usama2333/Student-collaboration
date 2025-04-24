@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Image from "next/image";
 import { emptyUser, logo, QR } from '../utils/images';
 import { FaFilePdf } from 'react-icons/fa';
 
-const Model = ({ setShowModal,userData  }) => {
+const Model = ({ setShowModal, userData }) => {
+    const printRef = useRef();
+    const printHandler = () => {
+        const printContent = printRef.current.innerHTML;
+        const printWindow = window.open('', '', 'width=800,height=600');
+        printWindow.document.write(`
+          <html>
+            <head>
+              <title>Print</title>
+               <link rel="stylesheet" href="/pdf.css" />
+            </head>
+            <body>${printContent}</body>
+          </html>
+        `);
+    };
     return (
         <div>
             <div className="modal-overlay" onClick={() => setShowModal(false)}>
                 <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                     <h2 className="modal-title">Identity Card</h2>
-                    <div className="modal-body">
+                    <div className="modal-body" ref={printRef}>
                         <div className='card-row'>
                             <div className='card-front'>
                                 <div className='card-holder'></div>
@@ -67,8 +81,8 @@ const Model = ({ setShowModal,userData  }) => {
 
                         </div>
                         <div className='pdf-btn-con'>
-                            <button className="download-btn-pdf">
-                               <FaFilePdf/>
+                            <button onClick={printHandler} className="download-btn-pdf">
+                                <FaFilePdf />
                                 Download PDF
                             </button>
 

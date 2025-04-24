@@ -17,11 +17,14 @@ const dashboardSlice = createSlice({
       setView(state, action) {
         state.view = action.payload;
       },
+      clearViewData: (state) => {
+        state.view = [];
+      }
   },
 });
 
 // Export actions
-export const { setLogin,setView } = dashboardSlice.actions;
+export const { setLogin,setView,clearViewData } = dashboardSlice.actions;
 
 // Export reducer
 export default dashboardSlice.reducer;
