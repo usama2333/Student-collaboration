@@ -92,14 +92,9 @@ const Users = () => {
                 <td>{item.department}</td>
                 <td>{item.email}</td>
                 <td>{item.role}</td>
-                {/* <td
-                  className={
-                    item.status === "Active" ? "status-active" : "status-inactive"
-                  }
-                >
-                  {item.status}
-                </td> */}
-                <td className="icon-container">
+    
+                <td>
+                  <div className="icon-container">
                   <div
                     onClick={() => {
                       if (currentRole !== "user") {
@@ -123,7 +118,7 @@ const Users = () => {
                   >
                     <FaEye className="icon view-icon" title="View" />
                   </div>
-                  {/* <FaEye className="icon view-icon" title="View" /> */}
+                 
                   <FaEdit className="icon edit-icon" title="Chat" onClick={() => handleChatClick(item)} />
                   {/* {
                     currentRole !== "user" && (
@@ -155,7 +150,7 @@ const Users = () => {
                     <FaTrash className="icon delete-icon" title="Delete" />
                   </div>
 
-
+                  </div>
                 </td>
               </tr>
             ))

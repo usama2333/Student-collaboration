@@ -60,11 +60,11 @@ const page = () => {
           <div className='upper-detail-row'>
 
             <div>
-              <p className='user-name'>{displayedUser?.name}</p>
-              <p className='user-desig'>{displayedUser?.department}</p>
+              <p className='user-name'>{displayedUser?.name ? displayedUser?.name : 'NA'}</p>
+              <p className='user-desig'>{displayedUser?.department ? displayedUser?.department : 'NA'}</p>
               <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
                 <FaMapMarkerAlt style={{ marginRight: '8px', color: 'gray' }} />
-                <span className='user-address'>{displayedUser?.address}</span>
+                <span className='user-address'>{displayedUser?.address ? displayedUser?.address : 'NA'}</span>
               </div>
             </div>
             <div className="button-group">
@@ -90,9 +90,9 @@ const page = () => {
                 </div>
 
                 <div>
-                  <p>{displayedUser?.department}</p>
-                  <p>{displayedUser?.cnic}</p>
-                  <p>{displayedUser?.createdAt.slice(0, 10)}</p>
+                  <p>{displayedUser?.department ? displayedUser?.department : 'NA'}</p>
+                  <p>{displayedUser?.cnic ? displayedUser?.cnic : 'NA'}</p>
+                  <p>{displayedUser?.createdAt ? displayedUser?.createdAt.slice(0, 10) : 'NA'}</p>
                 </div>
 
               </div>

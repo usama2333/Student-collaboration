@@ -48,8 +48,8 @@ const Model = ({ setShowModal, userData }) => {
                                     <Image src={emptyUser} width={100} height={100} alt='profile' />
                                 </div>
                                 <div className='name-div'>
-                                    <h3>{userData?.name}</h3>
-                                    <p>{userData?.department}</p>
+                                    <h3>{userData?.name ? userData?.name : 'NA'}</h3>
+                                    <p>{userData?.department ? userData?.department : 'NA'}</p>
                                 </div>
                                 <div className='card-details-row'>
                                     <div className='detail-keys'>
@@ -63,12 +63,12 @@ const Model = ({ setShowModal, userData }) => {
                                     </div>
                                     <div className='detail-values'>
 
-                                        <p>{userData?.phone}</p>
-                                        <p>{userData?.cnic}</p>
-                                        <p>{userData?.dob.slice(0, 10)}</p>
-                                        <p>{userData?.department}</p>
-                                        <p>{userData?.createdAt.slice(0, 10)}</p>
-                                        <p>{userData?.email}</p>
+                                        <p>{userData?.phone ? userData?.phone : 'NA'}</p>
+                                        <p>{userData?.cnic ? userData?.cnic : 'NA'}</p>
+                                        <p>{userData?.dob ? userData?.dob.slice(0, 10) : 'NA'}</p>
+                                        <p>{userData?.department ? userData?.department : 'NA'}</p>
+                                        <p>{userData?.createdAt ? userData?.createdAt.slice(0, 10) : 'NA'}</p>
+                                        <p>{userData?.email ? userData?.email : 'NA'}</p>
 
                                     </div>
                                 </div>

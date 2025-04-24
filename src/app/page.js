@@ -12,12 +12,16 @@ export default function Home() {
     if (!loading && !isLoggedIn) {
       router.push("/login");
     }
+    else {
+      router.push("/dashboard");
+    }
   }, [loading, isLoggedIn, router]);
 
   if (loading) return null; // Wait for auth check
 
   return (
     <div>
+      hello
       
     </div>
   );
