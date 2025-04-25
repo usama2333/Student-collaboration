@@ -15,7 +15,7 @@ export default function AddUsers() {
   const [selectedImage, setSelectedImage] = useState(null);
   const editData = useSelector((state) => state.dashboard.edit);
 
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   console.log(editData, 'Edit data .................')
 
   const handleImageChange = (event) => {
@@ -29,25 +29,42 @@ export default function AddUsers() {
     document.getElementById("imageInput").click();
   };
 
-
-
   const {
     register,
     handleSubmit,
     watch,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: "",
+      department: "",
+      email: "",
+      role: "",
+      phone: "",
+      cnic: "",
+      address: ""
+    },
+  });
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
     addUserApi(data, toast);
-    dispatch(clearEditData())
-    reset(data);
+    dispatch(clearEditData());
+    reset({
+      name: "",
+      department: "",
+      email: "",
+      role: "",
+      phone: "",
+      cnic: "",
+      address: ""
+    });
   };
 
   useEffect(() => {
-    if (editData && Object.keys(editData).length !== 0) {
+    console.log("editData:", editData); // Check what `editData` is
+    if (editData && editData.length !== 0) {
       reset(editData);
     } else {
       reset(); // Clear the form when not editing
