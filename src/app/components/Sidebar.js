@@ -4,7 +4,7 @@ import "../styles/sidebar.css";
 import Link from "next/link";
 import Image from "next/image";
 import { logo } from "../utils/images"; 
-import { FaSignOutAlt,FaUser, FaUserPlus,FaTachometerAlt,FaAddressCard } from 'react-icons/fa';  
+import { FaSignOutAlt,FaUser,FaUsers, FaUserPlus,FaTachometerAlt,FaAddressCard } from 'react-icons/fa';  
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
@@ -55,6 +55,12 @@ export default function Sidebar() {
             <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/user-details" className="nav-link">
             <FaAddressCard   size={22} />
               <p>User Details</p>
+            </Link>
+          </li>
+          <li>
+            <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/group-chat" className="nav-link">
+            <FaUsers size={22} />
+              <p>Group Chat</p>
             </Link>
           </li>
           <li style={{position:'absolute', bottom: '40px',width:'250px', cursor:'pointer'}} onClick={handleLogout}>
