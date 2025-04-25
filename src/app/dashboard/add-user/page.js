@@ -43,15 +43,16 @@ export default function AddUsers() {
     console.log("Form Submitted:", data);
     addUserApi(data, toast);
     dispatch(clearEditData())
-    // reset();
+    reset(data);
   };
 
-    // Inside the component...
-    useEffect(() => {
-      if (editData) {
-        reset(editData); // ✅ Now reset is defined
-      }
-    }, [editData, reset]);
+  useEffect(() => {
+    if (editData && Object.keys(editData).length !== 0) {
+      reset(editData);
+    } else {
+      reset(); // Clear the form when not editing
+    }
+  }, [editData, reset]);
 
   return (
     <>
@@ -300,7 +301,7 @@ export default function AddUsers() {
 
             {/* Submit Button */}
             <button type="submit" className="create-button">
-              {editData ? "Update" : "Create"}
+              {editData.length !== 0 ? "Update" : "Create"}
             </button>
           </form>
         </div>

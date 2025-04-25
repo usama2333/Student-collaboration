@@ -1,9 +1,10 @@
 /* Table Container */
 .table-container {
+  max-height: 495px;
     width: 100%;
-    /* overflow: auto;
-    overflow-x: scroll;
-    overflow-y: scroll; */
+    overflow: auto;
+    /* overflow-x: scroll; */
+    overflow-y: scroll;
     margin-top: 20px;
     margin: 0 auto;
     border-radius: 10px;

@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setView } from "@/redux/features/dashboardSlice";
 import { useRouter } from "next/navigation";
 import { FiUserX } from 'react-icons/fi';
+import ConfirmModal from "@/app/components/ConfirmModal";
 
 
 
@@ -18,7 +19,10 @@ const Users = () => {
   const [users, setUsers] = useState([]); // State to store users data
   const [currentRole, setCurrentRole] = useState(null);
   const [activeChatUser, setActiveChatUser] = useState(null);
-  const [userData, setUserData] = useState('')
+  const [userData, setUserData] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -92,63 +96,65 @@ const Users = () => {
                 <td>{item.department}</td>
                 <td>{item.email}</td>
                 <td>{item.role}</td>
-    
+
                 <td>
                   <div className="icon-container">
-                  <div
-                    onClick={() => {
-                      if (currentRole !== "user") {
-                        editHandler(item?._id);
+                    <div
+                      onClick={() => {
+                        if (currentRole !== "user") {
+                          editHandler(item?._id);
 
-                      } else {
-                        toast.error("Unauthorized: You do not have permission to view users", {
-                          position: "top-right",
-                          autoClose: 3000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          theme: "light",
-                        });
-                      }
-                    }}
-                    style={{
-                      cursor: currentRole === "user" ? "not-allowed" : "pointer"
-                    }}
-                  >
-                    <FaEye className="icon view-icon" title="View" />
-                  </div>
-                 
-                  <FaEdit className="icon edit-icon" title="Chat" onClick={() => handleChatClick(item)} />
-                  {/* {
+                        } else {
+                          toast.error("Unauthorized: You do not have permission to view users", {
+                            position: "top-right",
+                            autoClose: 3000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            theme: "light",
+                          });
+                        }
+                      }}
+                      style={{
+                        cursor: currentRole === "user" ? "not-allowed" : "pointer"
+                      }}
+                    >
+                      <FaEye className="icon view-icon" title="View" />
+                    </div>
+
+                    <FaEdit className="icon edit-icon" title="Chat" onClick={() => handleChatClick(item)} />
+                    {/* {
                     currentRole !== "user" && (
                       <div onClick={() => deleteHandler(item?._id)}>
                         <FaTrash className="icon delete-icon" title="Delete" />
                       </div>
                     )
                   } */}
-                  <div
-                    onClick={() => {
-                      if (currentRole !== "user") {
-                        deleteHandler(item?._id);
-                      } else {
-                        toast.error("Unauthorized: You do not have permission to delete users", {
-                          position: "top-right",
-                          autoClose: 3000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          theme: "light",
-                        });
-                      }
-                    }}
-                    style={{
-                      cursor: currentRole === "user" ? "not-allowed" : "pointer"
-                    }}
-                  >
-                    <FaTrash className="icon delete-icon" title="Delete" />
-                  </div>
+                    <div
+                      onClick={() => {
+                        if (currentRole !== "user") {
+                          // deleteHandler(item?._id);
+                          setSelectedUserId(item?._id);
+                          setShowModal(true);
+                        } else {
+                          toast.error("Unauthorized: You do not have permission to delete users", {
+                            position: "top-right",
+                            autoClose: 3000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            theme: "light",
+                          });
+                        }
+                      }}
+                      style={{
+                        cursor: currentRole === "user" ? "not-allowed" : "pointer"
+                      }}
+                    >
+                      <FaTrash className="icon delete-icon" title="Delete" />
+                    </div>
 
                   </div>
                 </td>
@@ -173,6 +179,18 @@ const Users = () => {
           onClose={() => setActiveChatUser(null)}
         />
       )}
+      <ConfirmModal
+        show={showModal}
+        onClose={() => {
+          setShowModal(false);
+          setSelectedUserId(null);
+        }}
+        onConfirm={() => {
+          deleteHandler(selectedUserId);
+          setShowModal(false);
+          setSelectedUserId(null);
+        }}
+      />
       <ToastContainer />
     </div>
   );
