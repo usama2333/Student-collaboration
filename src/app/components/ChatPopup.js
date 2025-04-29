@@ -6,16 +6,19 @@ import { getSocket } from '@/app/utils/socket';
 import { FaTimes, FaPaperclip } from 'react-icons/fa';
 import axios from 'axios';
 import getMessagesApi from '@/app/api/getMessagesApi';
+import DeletePopup from './DeletePopup';
 
-export default function ChatPopup({ user, onClose,userData }) {
-    console.log(user,'llllllllllllllllllllllllll')
-    console.log(userData,'LLLLLLLLLLLLLLLLLLLLLL')
+export default function ChatPopup({ user, onClose, userData }) {
+
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [file, setFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [selectedMessageId, setSelectedMessageId] = useState(null);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+
   const socket = getSocket();
-//   const userData = JSON.parse(localStorage.getItem('user'));
+  //   const userData = JSON.parse(localStorage.getItem('user'));
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -24,7 +27,7 @@ export default function ChatPopup({ user, onClose,userData }) {
 
     const fetchMessages = async () => {
       try {
-        
+
         const response = await getMessagesApi(user._id);
         setMessages(response?.data || []);
       } catch (error) {
@@ -52,6 +55,39 @@ export default function ChatPopup({ user, onClose,userData }) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  const handleDeleteMessage = async (messageId) => {
+    console.log(messageId, 'Message id..............')
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://localhost:5000/api/messages/${messageId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Emit to notify others (optional if you want live updates)
+      socket.emit('delete_message', { messageId, recipientId: user._id });
+
+      setMessages(prev => prev.filter(msg => msg._id !== messageId));
+      setShowDeletePopup(false);
+      setSelectedMessageId(null);
+    } catch (error) {
+      console.error('Delete failed', error);
+    }
+  };
+
+  useEffect(() => {
+    socket.on('message_deleted', ({ messageId }) => {
+      setMessages(prev => prev.filter(msg => msg._id !== messageId));
+    });
+
+    return () => {
+      socket.off('message_deleted');
+    };
+  }, []);
+
+
   const sendMessage = async () => {
     if (!input.trim() && !file) return;
 
@@ -73,14 +109,14 @@ export default function ChatPopup({ user, onClose,userData }) {
             setUploadProgress(percent);
           },
         });
-           // Reset progress after success
-    setUploadProgress(0);
+        // Reset progress after success
+        setUploadProgress(0);
         fileUrl = response.data.fileUrl;
         type = file.type.startsWith('image/')
           ? 'image'
           : file.type.startsWith('audio/')
-          ? 'audio'
-          : 'file';
+            ? 'audio'
+            : 'file';
       } catch (error) {
         setUploadProgress(0);
         console.error('File upload failed:', error);
@@ -98,15 +134,15 @@ export default function ChatPopup({ user, onClose,userData }) {
     socket.emit('private_message', msg);
 
     setMessages((prev = []) => [
-        ...prev,
-        {
-          ...msg,
-          sender: userData.id,
-          recipients: [user._id],
-          createdAt: new Date().toISOString(),
-        },
-      ]);
-      
+      ...prev,
+      {
+        ...msg,
+        sender: userData.id,
+        recipients: [user._id],
+        createdAt: new Date().toISOString(),
+      },
+    ]);
+
 
     setInput('');
     setFile(null);
@@ -123,56 +159,40 @@ export default function ChatPopup({ user, onClose,userData }) {
         <FaTimes onClick={onClose} style={{ cursor: 'pointer' }} />
       </div>
 
-      {/* <div className="chat-messages">
-        {messages.map((msg, idx) => (
+      <div className="chat-messages">
+        {messages && userData && messages.map((msg, idx) => (
           <div
             key={idx}
-            className={`message-bubble ${msg.sender === userData.id ? 'sent' : 'received'}`}
+            className={`message-bubble ${msg.sender === userData.id ? 'sent' : 'received'
+              }`}
+            onClick={() => {
+              setSelectedMessageId(msg._id);
+              setShowDeletePopup(true);
+            }}
           >
             {msg.type === 'text' && <p>{msg.content}</p>}
-            {msg.type === 'image' && <img src={msg.fileUrl} alt="attachment" className="chat-image" />}
-            {msg.type === 'audio' && <audio controls src={msg.fileUrl} className="chat-audio" />}
-            {msg.type === 'file' && (
-              <a href={msg.fileUrl} download className="chat-file">Download File</a>
+
+            {msg.type === 'image' && (
+              <img src={msg.fileUrl} alt="attachment" className="chat-image" />
             )}
+
+            {msg.type === 'audio' && (
+              <audio controls src={msg.fileUrl} className="chat-audio" />
+            )}
+
+            {msg.type === 'file' && (
+              <a href={msg.fileUrl} download className="chat-file">
+                Download File
+              </a>
+            )}
+
             <span className="message-time">
               {new Date(msg.createdAt).toLocaleTimeString()}
             </span>
           </div>
         ))}
         <div ref={messagesEndRef} />
-      </div> */}
-      <div className="chat-messages">
-  {messages && userData && messages.map((msg, idx) => (
-    <div
-      key={idx}
-      className={`message-bubble ${
-        msg.sender === userData.id ? 'sent' : 'received'
-      }`}
-    >
-      {msg.type === 'text' && <p>{msg.content}</p>}
-
-      {msg.type === 'image' && (
-        <img src={msg.fileUrl} alt="attachment" className="chat-image" />
-      )}
-
-      {msg.type === 'audio' && (
-        <audio controls src={msg.fileUrl} className="chat-audio" />
-      )}
-
-      {msg.type === 'file' && (
-        <a href={msg.fileUrl} download className="chat-file">
-          Download File
-        </a>
-      )}
-
-      <span className="message-time">
-        {new Date(msg.createdAt).toLocaleTimeString()}
-      </span>
-    </div>
-  ))}
-  <div ref={messagesEndRef} />
-</div>
+      </div>
 
 
       <div className="chat-input">
@@ -193,12 +213,21 @@ export default function ChatPopup({ user, onClose,userData }) {
           onChange={handleFileChange}
         />
         {uploadProgress > 0 && (
-  <div className="progress-bar-container">
-    <div className="progress-bar" style={{ width: `${uploadProgress}%` }}></div>
-  </div>
-)}
+          <div className="progress-bar-container">
+            <div className="progress-bar" style={{ width: `${uploadProgress}%` }}></div>
+          </div>
+        )}
         <button onClick={sendMessage}>Send</button>
       </div>
+      {showDeletePopup && (
+        <DeletePopup
+        selectedMessageId={selectedMessageId}
+        handleDeleteMessage={handleDeleteMessage}
+        setShowDeletePopup={setShowDeletePopup}
+      />
+
+      )}
+
     </div>
   );
 }
