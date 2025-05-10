@@ -1,9 +1,38 @@
-import React from 'react'
+'use client';
+import CreateGroup from '@/app/components/CreateGroup';
+import GroupChatPopup from '@/app/components/GroupChatPopup';
+import GroupList from '@/app/components/GroupList';
+import { useEffect, useState } from 'react';
 
-const page = () => {
+
+export default function GroupChatManager() {
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+   const [userData, setUserData] = useState('');
+
+  const handleGroupCreated = () => {
+    setRefreshKey((prev) => prev + 1);
+  };
+   useEffect(() => {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUserData(JSON.parse(storedUser));
+      }
+    }, []);
+
   return (
-    <div>Group chat</div>
-  )
-}
+    <div>
+      
+      <CreateGroup onGroupCreated={handleGroupCreated} />
+      <GroupList key={refreshKey} onGroupSelect={(group) => setSelectedGroup(group)} />
 
-export default page
+      {selectedGroup && (
+        <GroupChatPopup
+          group={selectedGroup}
+          onClose={() => setSelectedGroup(null)}
+          userData={userData}
+        />
+      )}
+    </div>
+  );
+}
