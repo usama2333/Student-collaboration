@@ -208,8 +208,8 @@ export default function AddUsers() {
                       <Image
                         src="/images/dummy.png"
                         alt="Upload"
-                        width={70}
-                        height={70}
+                        width={60}
+                        height={60}
                       />
                     )}
                     {selectedImage && (
