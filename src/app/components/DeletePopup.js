@@ -8,7 +8,7 @@ const DeletePopup = ({ selectedMessageId, handleDeleteMessage, setShowDeletePopu
     <div className="delete-popup-overlay">
       <div className="delete-popup animated-popup">
         <div className="popup-content">
-          <p>Are you sure you want to delete this message?</p>
+          <p>Are you sure you want to delete?</p>
           <div className="popup-buttons">
             <button
               className="btn delete"

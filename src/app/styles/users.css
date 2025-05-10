@@ -1,7 +1,7 @@
 /* Table Container */
 .table-container {
   max-height: 450px;
-  width: 100%;
+  width: 95%;
   overflow: auto;
   /* overflow-x: scroll; */
   overflow-y: scroll;

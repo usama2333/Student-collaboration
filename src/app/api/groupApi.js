@@ -46,3 +46,34 @@ export const deleteGroup = async (groupId,toast) => {
     // throw new Error('Failed to delete group');
   }
 };
+
+export const updateGroupName = async (groupId, newName, toast) => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        toast.error("No authentication token found.");
+        return null;
+    }
+
+    try {
+        const response = await axios.put(
+            `http://localhost:5000/api/groups/${groupId}`,
+            { name: newName },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        // toast.success(response.data.message || "Group updated successfully");
+        return response.data.group;
+    } catch (error) {
+        const message = error.response?.data?.message || error.message || "Failed to update group name";
+        toast.error(message);
+        console.error("Update group error:", error);
+        return null;
+    }
+};
+

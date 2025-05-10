@@ -1,16 +1,18 @@
 'use client';
 import '../styles/grouplist.css';
 import React, { useEffect, useRef, useState } from 'react';
-import { getGroups, deleteGroup } from '../api/groupApi';  // Assuming deleteGroup is implemented in your API
+import { getGroups, deleteGroup, updateGroupName } from '../api/groupApi';  // Assuming deleteGroup is implemented in your API
 import { FaTrash, FaEdit } from 'react-icons/fa';
-import { CSSTransition } from 'react-transition-group'; // For animation
 import { ToastContainer, toast } from "react-toastify";
+import DeletePopup from './DeletePopup';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 export default function GroupList({ onGroupSelect }) {
     const [groups, setGroups] = useState([]);
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [groupToDelete, setGroupToDelete] = useState(null);
-    const nodeRef = useRef(null);
+    const MySwal = withReactContent(Swal);
 
     useEffect(() => {
         const loadGroups = async () => {
@@ -37,9 +39,33 @@ export default function GroupList({ onGroupSelect }) {
         }
     };
 
-    // Cancel deletion and close the popup
-    const cancelDelete = () => {
-        setShowDeletePopup(false); // Hide the popup without deleting
+
+    const handleEditGroup = async (groupId) => {
+        const { value: newName } = await MySwal.fire({
+            title: 'Edit Group Name',
+            input: 'text',
+            inputLabel: 'New group name',
+            inputPlaceholder: 'Enter new group name',
+            showCancelButton: true,
+            confirmButtonText: 'Update',
+            cancelButtonText: 'Cancel',
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Group name cannot be empty';
+                }
+            },
+        });
+    
+        if (!newName) return;
+    
+        const updatedGroup = await updateGroupName(groupId, newName, toast);
+    
+        if (updatedGroup) {
+            setGroups(prev =>
+                prev.map(g => (g._id === groupId ? { ...g, name: updatedGroup.name } : g))
+            );
+            MySwal.fire('Updated!', 'Group name has been updated.', 'success');
+        }
     };
 
     return (
@@ -50,7 +76,7 @@ export default function GroupList({ onGroupSelect }) {
                     <li key={group._id} className="group-item">
                         <div className="group-name">{group.name}</div>
                         <div className="group-actions">
-                            <button className="select-button" onClick={() => onGroupSelect(group)}>Select</button>
+                            <button className="select-button" onClick={() => onGroupSelect(group)}>Chat</button>
                             <button className="edit-button" onClick={() => handleEditGroup(group._id)}>
                                 <FaEdit className="edit-icon" />
                             </button>
@@ -62,20 +88,14 @@ export default function GroupList({ onGroupSelect }) {
                 ))}
             </ul>
 
-            {/* Confirmation Popup */}
-            <CSSTransition
-                in={showDeletePopup}
-                timeout={300}
-                classNames="popup"
-                nodeRef={nodeRef} // Use the nodeRef prop
-                unmountOnExit
-            >
-                <div ref={nodeRef} className="popup-container">
-                    <p>Are you sure you want to delete this group?</p>
-                    <button onClick={cancelDelete}>Cancel</button>
-                    <button onClick={confirmDelete}>Confirm</button>
-                </div>
-            </CSSTransition>
+            {showDeletePopup && (
+                    <DeletePopup
+                        selectedMessageId={groupToDelete}
+                        handleDeleteMessage={confirmDelete}
+                        setShowDeletePopup={setShowDeletePopup}
+                    />
+
+                )}
             <ToastContainer />
         </div>
     );

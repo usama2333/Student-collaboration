@@ -21,7 +21,7 @@ export default function GroupChatManager() {
     }, []);
 
   return (
-    <div>
+    <div style={{paddingLeft:'50px'}}>
       
       <CreateGroup onGroupCreated={handleGroupCreated} />
       <GroupList key={refreshKey} onGroupSelect={(group) => setSelectedGroup(group)} />

@@ -68,9 +68,13 @@
   color: #e76f4c;
 }
 
-.edit-icon,
 .delete-icon {
+    color: #f05252;
   font-size: 1.3rem;
+}
+.edit-icon {
+    color: #50c96c;
+    font-size: 1.3rem;
 }
   
   
