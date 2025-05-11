@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { logo } from "../utils/images"; 
 import { FaSignOutAlt,FaUser,FaUsers, FaUserPlus,FaTachometerAlt,FaAddressCard } from 'react-icons/fa';  
+import { BiInfoCircle } from 'react-icons/bi';
+import { FiMail } from 'react-icons/fi';
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
@@ -61,6 +63,18 @@ export default function Sidebar() {
             <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/group-chat" className="nav-link">
             <FaUsers size={22} />
               <p>Group Chat</p>
+            </Link>
+          </li>
+          <li>
+            <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/about-us" className="nav-link">
+            <BiInfoCircle size={22} />
+              <p>About Us</p>
+            </Link>
+          </li>
+          <li>
+            <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/contact-us" className="nav-link">
+            <FiMail size={22} />
+              <p>Contact Us</p>
             </Link>
           </li>
           <li style={{position:'absolute', bottom: '40px',width:'250px', cursor:'pointer'}} onClick={handleLogout}>
