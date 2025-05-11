@@ -21,15 +21,21 @@ const Page = () => {
     e.preventDefault();
 
     // You could include the name in the message body
-    const fullMessage = `From: ${formData.name}\n\n${formData.message}`;
+    const fullMessage = `
+    From: ${formData.name}
+    Email: ${formData.email}
+
+    Message: ${formData.message}
+  `;
 
     await sendMessageApi(
       {
         to: 'mahpara.slog@gmail.com', 
         subject: `New Contact Message from ${formData.name}`,
         message: fullMessage,
+        replyTo: formData.email,  // Send user's email to backend
       },
-      Swal, // using Swal instead of toast
+      Swal,
       () => setFormData({ name: '', email: '', message: '' })
     );
   };
