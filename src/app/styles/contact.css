@@ -1,6 +1,6 @@
 .contact-wrapper {
     font-family: 'Segoe UI', sans-serif;
-    padding: 10px 20px;
+    padding: 10px 20px 50px 20px;
     /* background: linear-gradient(180deg, #fff5f2 0%, #fff1ec 100%); */
     animation: fadeIn 0.8s ease;
     /* min-height: 100vh; */
@@ -36,7 +36,7 @@
     border-radius: 16px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
     animation: floatIn 1.5s ease;
     color: #fff;
   }

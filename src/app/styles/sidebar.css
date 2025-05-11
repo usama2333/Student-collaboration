@@ -1,13 +1,18 @@
 
 /* Sidebar */
 .sidebar {
-    width: 250px;
-    color: white;
-    /* padding: 20px; */
-    background: transparent linear-gradient(180deg, #fe8062 0%, #7b2713 100%) 0%
-      0% no-repeat border-box;
-    box-shadow: 3px 0px 10px #0000000d;
-  }
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: white;
+  background: transparent linear-gradient(180deg, #fe8062 0%, #7b2713 100%) 0% 0% no-repeat border-box;
+  box-shadow: 3px 0px 10px #0000000d;
+  padding: 20px;
+  z-index: 1000; /* ensures it stays above other content */
+ 
+}
   
   .sidebar h2 {
     text-align: center;

@@ -1,21 +1,37 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+
 import '../../styles/contact.css';
+import sendMessageApi from '@/app/api/sendMessageApi';
 
 const Page = () => {
-  const handleSubmit = (e) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    Swal.fire({
-      icon: 'success',
-      title: 'Message Sent!',
-      text: 'Thank you for reaching out. We will get back to you soon.',
-      confirmButtonColor: '#e37256'
-    });
+    // You could include the name in the message body
+    const fullMessage = `From: ${formData.name}\n\n${formData.message}`;
 
-    // Optional: clear form inputs if needed
-    e.target.reset();
+    await sendMessageApi(
+      {
+        to: 'mahpara.slog@gmail.com', 
+        subject: `New Contact Message from ${formData.name}`,
+        message: fullMessage,
+      },
+      Swal, // using Swal instead of toast
+      () => setFormData({ name: '', email: '', message: '' })
+    );
   };
 
   return (
@@ -28,22 +44,37 @@ const Page = () => {
       <div className="contact-container">
         <form className="contact-form" onSubmit={handleSubmit}>
           <label>Name</label>
-          <input type="text" placeholder="Your Name" required />
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
 
           <label>Email</label>
-          <input type="email" placeholder="Your Email" required />
+          <input
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
 
           <label>Message</label>
-          <textarea rows="6" placeholder="Type your message..." required></textarea>
+          <textarea
+            name="message"
+            rows="6"
+            placeholder="Type your message..."
+            value={formData.message}
+            onChange={handleChange}
+            required
+          ></textarea>
 
           <button type="submit">Send Message</button>
         </form>
-         {/* <div className="contact-info">
-          <h3>Our Info</h3>
-          <p>📧 Email: support@studentcollab.com</p>
-          <p>📍 Location: Virtual Campus, Worldwide</p>
-          <p>⏰ Hours: Mon - Fri (9am - 6pm)</p>
-        </div> */}
       </div>
     </div>
   );
