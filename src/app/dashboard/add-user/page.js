@@ -190,6 +190,10 @@ export default function AddUsers() {
                     <option value="IT">IT</option>
                     <option value="Computer Science">Computer Science</option>
                     <option value="Engineering">Engineering</option>
+                    <option value="Medical">Medical</option>
+                    <option value="English">English</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Economics">Economics</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>

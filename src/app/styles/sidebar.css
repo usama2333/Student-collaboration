@@ -33,7 +33,28 @@
   
   .sidebar a:hover {
     background: #ea846a;
+    border-radius: 10px;
   }
+
+  /* side bar animation */
+  /* .sidebar a {
+    text-decoration: none;
+    color: white;
+    display: block;
+    padding: 10px 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.05); 
+  }
+  
+  
+  .sidebar a:hover {
+    background-color: #ffe5de;
+    color: #7b2713; 
+    transform: translateX(8px); 
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  } */
   
   .logo_row {
     display: flex;

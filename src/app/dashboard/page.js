@@ -7,6 +7,7 @@ import getUsersApi from '../api/getUserApi';
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import sendMagicLinkApi from '../api/sendMagicLinkApi';
+import UserGrowthChart from '../components/UserGrowthChart';
 
 export default function Dashboard() {
   const [users, setUsers] = useState([]);
@@ -40,7 +41,11 @@ export default function Dashboard() {
 
   useEffect(() => {
     getUsersApi({ setUsers });
+    // console.log(users,'Users..............')
   }, []);
+  // Extract unique departments
+const departments = new Set(users.map(user => user.department));
+
 
   return (
     <div className='dashboard-con'>
@@ -61,7 +66,7 @@ export default function Dashboard() {
               <Image src={blue} alt="Red" className="" />
               <p className='no-depart'>Departments</p>
             </div>
-            <p className='no-user-val'>3</p>
+            <p className='no-user-val'>{departments.size}</p>
           </div>
         </div>
         <div className='add-user-con'>
@@ -92,6 +97,9 @@ export default function Dashboard() {
 
       </div>
       <ToastContainer />
+      <div style={{ margin:'50px 0px 50px 50px', width: '90%' }}>
+        <UserGrowthChart users={users} />
+      </div>
     </div>
   );
 }

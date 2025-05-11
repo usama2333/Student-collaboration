@@ -77,7 +77,7 @@ export default function Sidebar() {
               <p>Contact Us</p>
             </Link>
           </li>
-          <li style={{position:'absolute', bottom: '40px',width:'250px', cursor:'pointer'}} onClick={handleLogout}>
+          <li style={{position:'absolute', bottom: '40px',width:'200px', cursor:'pointer'}} onClick={handleLogout}>
             <a style={{display:'flex', alignItems:'center',gap:'10px'}} className="nav-link">
             <FaSignOutAlt size={22} />
               <p>Logout</p>
