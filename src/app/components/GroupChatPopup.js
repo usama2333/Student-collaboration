@@ -204,13 +204,17 @@ export default function GroupChatPopup({ group, onClose, userData }) {
                     <div
                         key={idx}
                         className={`message-bubble ${(typeof msg.sender === 'object' ? msg.sender._id : msg.sender) === userData.id
-                                ? 'sent'
-                                : 'received'
+                            ? 'sent'
+                            : 'received'
                             }`}
 
-                        onClick={() => {
-                            setSelectedMessageId(msg._id);
-                            setShowDeletePopup(true);
+                        role="button"
+                        tabIndex={0}
+                        onClick={(e) => {
+                            if (e.target === e.currentTarget) {
+                                setSelectedMessageId(msg._id);
+                                setShowDeletePopup(true);
+                            }
                         }}
                     >
                         <div className="sender-name">
@@ -219,7 +223,37 @@ export default function GroupChatPopup({ group, onClose, userData }) {
                         {msg.type === 'text' && <p>{msg.content}</p>}
                         {msg.type === 'image' && <img src={msg.fileUrl} alt="attachment" className="chat-image" />}
                         {msg.type === 'audio' && <audio controls src={msg.fileUrl} className="chat-audio" />}
-                        {msg.type === 'file' && <a href={msg.fileUrl} download className="chat-file">Download File</a>}
+                        {msg.type === 'file' && (() => {
+                            const fileExtension = msg.fileUrl.split('.').pop().toLowerCase();
+
+                            if (['mp4', 'webm', 'ogg'].includes(fileExtension)) {
+                                return <video controls src={msg.fileUrl} className="chat-video" />;
+                            }
+
+                            if (['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'pdf'].includes(fileExtension)) {
+                                return (
+                                    <a
+                                        href={msg.fileUrl}
+                                        download
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="chat-file-download"
+                                    >
+                                        📄 Download File
+                                    </a>
+
+                                );
+                            }
+
+                            // Default to download
+                            return (
+                                <a href={msg.fileUrl} download className="chat-file">
+                                    Download File
+                                </a>
+                            );
+                        })()}
+
                         <span className="message-time">{new Date(msg.createdAt).toLocaleTimeString()}</span>
                         {/* {msg.sender === userData.id && (
                             <button
