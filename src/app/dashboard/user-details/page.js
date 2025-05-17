@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 
 
-const page = () => {
+const Page = () => {
   const [showModal, setShowModal] = useState(false);
   const [users, setUsers] = useState('')
   const [currentRole, setCurrentRole] = useState(null);
@@ -157,4 +157,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
