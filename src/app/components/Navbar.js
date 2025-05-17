@@ -50,10 +50,10 @@ export default function Navbar() {
         <p className="nav_text">{activePage}</p>
 
         <div className="email_profile_row">
-          <div className="notification">
+          {/* <div className="notification">
             <FaBell className="icon" />
             <span className="badge">5</span>
-          </div>
+          </div> */}
           <div>
             <p className="name_text">{user.name}</p>
             <p className="email_text">{user.email}</p>
