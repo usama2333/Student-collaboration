@@ -20,7 +20,7 @@ const page = () => {
     <div className="about-section">
       <h2>Our Mission</h2>
       <p>
-        Our mission is to foster a connected learning environment. Whether you're revising for exams, organizing
+        Our mission is to foster a connected learning environment. Whether you are revising for exams, organizing
         study groups, or just want to chat with peers — StudentHub is your go-to community.
       </p>
     </div>

@@ -42,9 +42,6 @@ export default function Login() {
     }
   }, [authCtx.loading, authCtx.isLoggedIn, router]);
   
-  // if (authCtx.loading) {
-  //   return <div>Checking login status...</div>;
-  // }
 
   return (
     <div className="container">

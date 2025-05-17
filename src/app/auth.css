@@ -94,7 +94,7 @@
   box-shadow: 0 0 5px rgba(136, 136, 136, 0.5); /* Light grey shadow */
 }
 
-/* Red label color when there's an error */
+
 .error-label {
   color: red;
   /* font-weight: bold; */
