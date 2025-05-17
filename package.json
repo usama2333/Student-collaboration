@@ -26,6 +26,7 @@
     "react-redux": "^9.2.0",
     "react-toastify": "^11.0.5",
     "react-transition-group": "^4.4.5",
+    "react-use-audio-recorder": "^0.4.2",
     "redux-persist": "^6.0.0",
     "socket.io-client": "^4.8.1",
     "sweetalert2": "^11.6.13",

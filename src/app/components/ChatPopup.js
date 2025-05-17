@@ -7,6 +7,8 @@ import { FaTimes, FaPaperclip } from 'react-icons/fa';
 import axios from 'axios';
 import getMessagesApi from '@/app/api/getMessagesApi';
 import DeletePopup from './DeletePopup';
+import AudioRecorder from './AudioRecorder';
+import { IoSend } from 'react-icons/io5';
 
 export default function ChatPopup({ user, onClose, userData }) {
 
@@ -16,6 +18,8 @@ export default function ChatPopup({ user, onClose, userData }) {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [selectedMessageId, setSelectedMessageId] = useState(null);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [recordedAudio, setRecordedAudio] = useState(null);
+
 
   const socket = getSocket();
   //   const userData = JSON.parse(localStorage.getItem('user'));
@@ -78,6 +82,10 @@ export default function ChatPopup({ user, onClose, userData }) {
       console.error('Delete failed', error);
     }
   };
+const handleAudioRecorded = (audioFile) => {
+  setFile(audioFile); // this will trigger preview and allow you to send via the send button
+};
+
 
   useEffect(() => {
     socket.on('message_deleted', ({ messageId }) => {
@@ -299,9 +307,12 @@ export default function ChatPopup({ user, onClose, userData }) {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
         />
-        <label htmlFor="fileInput">
+              <label htmlFor="fileInput">
           <FaPaperclip className="chat-icon" />
         </label>
+        <AudioRecorder onAudioRecorded={handleAudioRecorded} />
+
+  
         <input
           type="file"
           id="fileInput"
@@ -314,7 +325,9 @@ export default function ChatPopup({ user, onClose, userData }) {
             <div className="progress-bar" style={{ width: `${uploadProgress}%` }}></div>
           </div>
         )}
-        <button onClick={sendMessage}>Send</button>
+        <button onClick={sendMessage}>
+           <IoSend size={15} color="#fff" />
+        </button>
       </div>
 
       {showDeletePopup && (

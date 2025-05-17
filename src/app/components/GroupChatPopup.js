@@ -7,6 +7,8 @@ import { FaTimes, FaPaperclip } from 'react-icons/fa';
 import axios from 'axios';
 import DeletePopup from './DeletePopup';
 import { ToastContainer, toast } from "react-toastify";
+import AudioRecorder from './AudioRecorder';
+import { IoSend } from 'react-icons/io5';
 
 export default function GroupChatPopup({ group, onClose, userData }) {
     const [messages, setMessages] = useState([]);  // state to store messages
@@ -33,6 +35,9 @@ export default function GroupChatPopup({ group, onClose, userData }) {
             console.error('Failed to fetch group messages:', error);
         }
     };
+        const handleAudioRecorded = (audioFile) => {
+  setFile(audioFile); // this will trigger preview and allow you to send via the send button
+};
     const handleDeleteMessage = async (messageId) => {
         try {
             console.log('groupId:', group._id, 'messageId:', messageId);
@@ -88,6 +93,8 @@ export default function GroupChatPopup({ group, onClose, userData }) {
         // Scroll to the latest message
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
+
+
 
     //   const sendMessage = async () => {
     //     if (!input.trim() && !file) return;
@@ -302,6 +309,7 @@ export default function GroupChatPopup({ group, onClose, userData }) {
                 <label htmlFor="groupFileInput">
                     <FaPaperclip className="chat-icon" />
                 </label>
+                <AudioRecorder onAudioRecorded={handleAudioRecorded} />
 
                 <input
                     type="file"
@@ -317,7 +325,9 @@ export default function GroupChatPopup({ group, onClose, userData }) {
                         <div className="progress-bar" style={{ width: `${uploadProgress}%` }}></div>
                     </div>
                 )}
-                <button onClick={sendMessage}>Send</button>
+                <button onClick={sendMessage}>
+                      <IoSend size={15} color="#fff" />
+                </button>
                 {showDeletePopup && (
                     <DeletePopup
                         selectedMessageId={selectedMessageId}
