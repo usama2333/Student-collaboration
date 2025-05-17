@@ -16,6 +16,7 @@ export default function GroupChatPopup({ group, onClose, userData }) {
     const messagesEndRef = useRef(null);
     const [selectedMessageId, setSelectedMessageId] = useState(null);
     const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const fileInputRef = useRef(null);
 
     const socket = getSocket();
 
@@ -268,6 +269,27 @@ export default function GroupChatPopup({ group, onClose, userData }) {
                 <div ref={messagesEndRef} />
 
             </div>
+            {file && (
+                <div className="attached-preview">
+                    {file.type.startsWith('image/') && (
+                        <img src={URL.createObjectURL(file)} alt="Preview" className="file-preview-image" />
+                    )}
+                    {file.type.startsWith('video/') && (
+                        <video src={URL.createObjectURL(file)} controls className="file-preview-video" />
+                    )}
+                    {file.type.startsWith('audio/') && (
+                        <audio src={URL.createObjectURL(file)} controls className="file-preview-audio" />
+                    )}
+                    {!file.type.startsWith('image/') && !file.type.startsWith('video/') && !file.type.startsWith('audio/') && (
+                        <p className="file-preview-name">{file.name}</p>
+                    )}
+
+                    <FaTimes className="file-preview-close" onClick={() => {
+                        setFile(null);
+                        if (fileInputRef.current) fileInputRef.current.value = null;
+                    }} />
+                </div>
+            )}
 
             <div className="chat-input">
                 <input
@@ -284,9 +306,12 @@ export default function GroupChatPopup({ group, onClose, userData }) {
                 <input
                     type="file"
                     id="groupFileInput"
+                    ref={fileInputRef}
                     style={{ display: 'none' }}
                     onChange={(e) => setFile(e.target.files[0])}
                 />
+
+
                 {uploadProgress > 0 && (
                     <div className="progress-bar-container">
                         <div className="progress-bar" style={{ width: `${uploadProgress}%` }}></div>

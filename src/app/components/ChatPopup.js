@@ -20,6 +20,8 @@ export default function ChatPopup({ user, onClose, userData }) {
   const socket = getSocket();
   //   const userData = JSON.parse(localStorage.getItem('user'));
   const messagesEndRef = useRef(null);
+  const fileInputRef = useRef(null);
+
 
   useEffect(() => {
     socket.auth.token = localStorage.getItem('token');
@@ -184,7 +186,7 @@ export default function ChatPopup({ user, onClose, userData }) {
                 return <video controls src={msg.fileUrl} className="chat-video" />;
               }
 
-              if (['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx','pdf'].includes(fileExtension)) {
+              if (['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'pdf'].includes(fileExtension)) {
                 return (
                   <a
                     href={msg.fileUrl}
@@ -217,6 +219,78 @@ export default function ChatPopup({ user, onClose, userData }) {
       </div>
 
 
+    {file && (
+  <div className="attached-preview">
+    {file.type.startsWith('image/') && (
+      <div className="preview-item">
+        <img
+          src={URL.createObjectURL(file)}
+          alt="preview"
+          className="preview-image"
+        />
+        <FaTimes
+          className="remove-file"
+          onClick={() => {
+            setFile(null);
+            if (fileInputRef.current) fileInputRef.current.value = null;
+          }}
+        />
+      </div>
+    )}
+
+    {file.type.startsWith('video/') && (
+      <div className="preview-item">
+        <video
+          src={URL.createObjectURL(file)}
+          controls
+          className="file-preview-video"
+        />
+        <FaTimes
+          className="remove-file"
+          onClick={() => {
+            setFile(null);
+            if (fileInputRef.current) fileInputRef.current.value = null;
+          }}
+        />
+      </div>
+    )}
+
+    {file.type.startsWith('audio/') && (
+      <div className="preview-item">
+        <audio
+          controls
+          src={URL.createObjectURL(file)}
+          className="preview-audio"
+        />
+        <FaTimes
+          className="remove-file"
+          onClick={() => {
+            setFile(null);
+            if (fileInputRef.current) fileInputRef.current.value = null;
+          }}
+        />
+      </div>
+    )}
+
+    {!file.type.startsWith('image/') &&
+      !file.type.startsWith('audio/') &&
+      !file.type.startsWith('video/') && (
+        <div className="preview-item">
+          <span className="file-name">{file.name}</span>
+          <FaTimes
+            className="remove-file"
+            onClick={() => {
+              setFile(null);
+              if (fileInputRef.current) fileInputRef.current.value = null;
+            }}
+          />
+        </div>
+      )}
+  </div>
+)}
+
+
+      {/* Chat Input Section */}
       <div className="chat-input">
         <input
           type="text"
@@ -231,6 +305,7 @@ export default function ChatPopup({ user, onClose, userData }) {
         <input
           type="file"
           id="fileInput"
+          ref={fileInputRef}
           style={{ display: 'none' }}
           onChange={handleFileChange}
         />
@@ -241,6 +316,7 @@ export default function ChatPopup({ user, onClose, userData }) {
         )}
         <button onClick={sendMessage}>Send</button>
       </div>
+
       {showDeletePopup && (
         <DeletePopup
           selectedMessageId={selectedMessageId}
