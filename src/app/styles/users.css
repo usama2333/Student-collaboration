@@ -106,4 +106,28 @@
   color: #fe8062;
   margin-bottom: 10px;
 }
+.search-input {
+  width: 250px;
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  background: #ffffff;
+  color: #333;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #fe8062; /* Indigo */
+  box-shadow: 0 0 8px rgba(248, 83, 54, 0.6);
+  background: #f9f9ff;
+  transform: scale(1.02);
+}
+
+.input-search-div {
+  margin: 10px;
+}
+
 

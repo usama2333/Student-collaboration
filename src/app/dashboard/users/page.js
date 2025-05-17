@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import "../../styles/users.css";
 import deleteUserApi from "@/app/api/deleteUserApi";
@@ -7,65 +7,63 @@ import ChatPopup from "@/app/components/ChatPopup";
 import React, { useEffect, useState } from "react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setView } from "@/redux/features/dashboardSlice";
 import { useRouter } from "next/navigation";
-import { FiUserX } from 'react-icons/fi';
+import { FiUserX } from "react-icons/fi";
 import ConfirmModal from "@/app/components/ConfirmModal";
 
-
-
 const Users = () => {
-  const [users, setUsers] = useState([]); // State to store users data
+  const [users, setUsers] = useState([]);
   const [currentRole, setCurrentRole] = useState(null);
   const [activeChatUser, setActiveChatUser] = useState(null);
-  const [userData, setUserData] = useState('');
+  const [userData, setUserData] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const dispatch = useDispatch();
   const router = useRouter();
 
   const deleteHandler = async (id) => {
-    console.log(id, 'id.....................')
-    const response = await deleteUserApi(id, toast)
-    if (response?.success || true) { // optional check
+    const response = await deleteUserApi(id, toast);
+    if (response?.success || true) {
       setTimeout(() => {
         setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
-      }, 1000); // 1 second delay
+      }, 1000);
     }
+  };
 
-  }
   const editHandler = async (id) => {
-    console.log(id, 'id.....................')
     const viewData = users.filter((item) => item._id === id);
-    dispatch(setView(viewData))
-    router.push('/dashboard/user-details');
+    dispatch(setView(viewData));
+    router.push("/dashboard/user-details");
+  };
 
-
-  }
   const handleChatClick = (selectedUser) => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
-      setUserData(parsedUser); // update logged-in user
-      setActiveChatUser(selectedUser); // update selected chat user
-      console.log("Logged in as:", parsedUser.email);
-      console.log("Chatting with:", selectedUser.email);
+      setUserData(parsedUser);
+      setActiveChatUser(selectedUser);
     } else {
       console.warn("No user found in localStorage.");
     }
   };
 
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1])); // decode JWT
+      const payload = JSON.parse(atob(token.split(".")[1]));
       setCurrentRole(payload.role);
     }
 
-    getUsersApi({ setUsers });
+    getUsersApi({
+      setUsers: (data) => {
+        const sorted = data.sort((a, b) => b._id.localeCompare(a._id));
+        setUsers(sorted);
+      },
+    });
   }, []);
 
   useEffect(() => {
@@ -75,9 +73,27 @@ const Users = () => {
     }
   }, []);
 
+  const filteredUsers = users.filter((user) =>
+    [user.name, user.email, user.department, user.role]
+      .join(" ")
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="table-container">
+      <div className="input-search-div">
+         <input
+        type="text"
+        placeholder="🔍 Search users..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-input"
+      />
+
+      </div>
+     
+
       <table className="custom-table">
         <thead>
           <tr>
@@ -89,73 +105,75 @@ const Users = () => {
           </tr>
         </thead>
         <tbody>
-          {users.length > 0 ? (
-            users.map((item, index) => (
+          {filteredUsers.length > 0 ? (
+            filteredUsers.map((item, index) => (
               <tr key={index}>
                 <td>{item.name}</td>
                 <td>{item.department}</td>
                 <td>{item.email}</td>
                 <td>{item.role}</td>
-
                 <td>
                   <div className="icon-container">
                     <div
                       onClick={() => {
                         if (currentRole !== "user") {
                           editHandler(item?._id);
-
                         } else {
-                          toast.error("Unauthorized: You do not have permission to view users", {
-                            position: "top-right",
-                            autoClose: 3000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            theme: "light",
-                          });
+                          toast.error(
+                            "Unauthorized: You do not have permission to view users",
+                            {
+                              position: "top-right",
+                              autoClose: 3000,
+                              hideProgressBar: false,
+                              closeOnClick: true,
+                              pauseOnHover: true,
+                              draggable: true,
+                              theme: "light",
+                            }
+                          );
                         }
                       }}
                       style={{
-                        cursor: currentRole === "user" ? "not-allowed" : "pointer"
+                        cursor:
+                          currentRole === "user" ? "not-allowed" : "pointer",
                       }}
                     >
                       <FaEye className="icon view-icon" title="View" />
                     </div>
 
-                    <FaEdit className="icon edit-icon" title="Chat" onClick={() => handleChatClick(item)} />
-                    {/* {
-                    currentRole !== "user" && (
-                      <div onClick={() => deleteHandler(item?._id)}>
-                        <FaTrash className="icon delete-icon" title="Delete" />
-                      </div>
-                    )
-                  } */}
+                    <FaEdit
+                      className="icon edit-icon"
+                      title="Chat"
+                      onClick={() => handleChatClick(item)}
+                    />
+
                     <div
                       onClick={() => {
                         if (currentRole !== "user") {
-                          // deleteHandler(item?._id);
                           setSelectedUserId(item?._id);
                           setShowModal(true);
                         } else {
-                          toast.error("Unauthorized: You do not have permission to delete users", {
-                            position: "top-right",
-                            autoClose: 3000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            theme: "light",
-                          });
+                          toast.error(
+                            "Unauthorized: You do not have permission to delete users",
+                            {
+                              position: "top-right",
+                              autoClose: 3000,
+                              hideProgressBar: false,
+                              closeOnClick: true,
+                              pauseOnHover: true,
+                              draggable: true,
+                              theme: "light",
+                            }
+                          );
                         }
                       }}
                       style={{
-                        cursor: currentRole === "user" ? "not-allowed" : "pointer"
+                        cursor:
+                          currentRole === "user" ? "not-allowed" : "pointer",
                       }}
                     >
                       <FaTrash className="icon delete-icon" title="Delete" />
                     </div>
-
                   </div>
                 </td>
               </tr>
@@ -172,6 +190,7 @@ const Users = () => {
           )}
         </tbody>
       </table>
+
       {activeChatUser && (
         <ChatPopup
           user={activeChatUser}
@@ -179,6 +198,7 @@ const Users = () => {
           onClose={() => setActiveChatUser(null)}
         />
       )}
+
       <ConfirmModal
         show={showModal}
         onClose={() => {
@@ -191,6 +211,7 @@ const Users = () => {
           setSelectedUserId(null);
         }}
       />
+
       <ToastContainer />
     </div>
   );
