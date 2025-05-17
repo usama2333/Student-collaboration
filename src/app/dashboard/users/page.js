@@ -10,7 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setView } from "@/redux/features/dashboardSlice";
 import { useRouter } from "next/navigation";
-import { FiUserX } from "react-icons/fi";
+import { FiUserX,FiX } from "react-icons/fi";
 import ConfirmModal from "@/app/components/ConfirmModal";
 
 const Users = () => {
@@ -82,16 +82,32 @@ const Users = () => {
 
   return (
     <div className="table-container">
-      <div className="input-search-div">
-         <input
-        type="text"
-        placeholder="🔍 Search users..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-input"
-      />
+<div className="input-search-div" style={{ position: "relative" }}>
+  <input
+    type="text"
+    placeholder="🔍 Search users..."
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    className="search-input"
+  />
+  {searchTerm && (
+    <FiX
+      className="clear-icon"
+      onClick={() => setSearchTerm("")}
+      style={{
+        position: "absolute",
+        right: "10px",
+        top: "50%",
+        transform: "translateY(-50%)",
+        cursor: "pointer",
+        color: "#888",
+        fontSize: "18px",
+      }}
+      title="Clear search"
+    />
+  )}
+</div>
 
-      </div>
      
 
       <table className="custom-table">
