@@ -35,9 +35,9 @@ export default function GroupChatPopup({ group, onClose, userData }) {
             console.error('Failed to fetch group messages:', error);
         }
     };
-        const handleAudioRecorded = (audioFile) => {
-  setFile(audioFile); // this will trigger preview and allow you to send via the send button
-};
+    const handleAudioRecorded = (audioFile) => {
+        setFile(audioFile); // this will trigger preview and allow you to send via the send button
+    };
     const handleDeleteMessage = async (messageId) => {
         try {
             console.log('groupId:', group._id, 'messageId:', messageId);
@@ -87,70 +87,13 @@ export default function GroupChatPopup({ group, onClose, userData }) {
             socket.emit('leave_room', group._id);
             socket.off('group_message');
         };
-    }, [group._id]);  // Re-run the effect when the group changes
+    }, [group._id]);
 
     useEffect(() => {
         // Scroll to the latest message
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-
-
-    //   const sendMessage = async () => {
-    //     if (!input.trim() && !file) return;
-
-    //     let fileUrl = '';
-    //     let type = 'text';
-
-    //     if (file) {
-    //       const formData = new FormData();
-    //       formData.append('file', file);
-
-    //       try {
-    //         const response = await axios.post('http://localhost:5000/api/chat/upload', formData, {
-    //           headers: {
-    //             'Content-Type': 'multipart/form-data',
-    //             Authorization: `Bearer ${localStorage.getItem('token')}`,
-    //           },
-    //           onUploadProgress: (progressEvent) => {
-    //             const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-    //             setUploadProgress(percent);
-    //           },
-    //         });
-    //         fileUrl = response.data.fileUrl;
-    //         type = file.type.startsWith('image/')
-    //           ? 'image'
-    //           : file.type.startsWith('audio/')
-    //             ? 'audio'
-    //             : 'file';
-    //       } catch (error) {
-    //         console.error('File upload failed:', error);
-    //         return;
-    //       }
-    //     }
-
-    //     const msg = {
-    //       roomId: group._id,
-    //       content: input,
-    //       type,
-    //       fileUrl,
-    //       sender: userData.id,
-    //     };
-
-    //     socket.emit('group_message', msg);
-
-    //     setMessages((prev) => [
-    //       ...prev,
-    //       {
-    //         ...msg,
-    //         createdAt: new Date().toISOString(),
-    //       },
-    //     ]);
-
-    //     setInput('');
-    //     setFile(null);
-    //     setUploadProgress(0);
-    //   };
     const sendMessage = async () => {
         if (!input.trim() && !file) return;
 
@@ -192,7 +135,7 @@ export default function GroupChatPopup({ group, onClose, userData }) {
             sender: userData.id,
         };
 
-        socket.emit('group_message', msg); // let the socket listener handle UI update
+        socket.emit('group_message', msg);
 
         setInput('');
         setFile(null);
@@ -226,8 +169,11 @@ export default function GroupChatPopup({ group, onClose, userData }) {
                         }}
                     >
                         <div className="sender-name">
-                            {msg.sender.name}
+                            {typeof msg.sender === 'object'
+                                ? msg.sender.name
+                                : (msg.sender === userData.id ? userData.name : 'Unknown')}
                         </div>
+
                         {msg.type === 'text' && <p>{msg.content}</p>}
                         {msg.type === 'image' && <img src={msg.fileUrl} alt="attachment" className="chat-image" />}
                         {msg.type === 'audio' && <audio controls src={msg.fileUrl} className="chat-audio" />}
@@ -326,7 +272,7 @@ export default function GroupChatPopup({ group, onClose, userData }) {
                     </div>
                 )}
                 <button onClick={sendMessage}>
-                      <IoSend size={15} color="#fff" />
+                    <IoSend size={15} color="#fff" />
                 </button>
                 {showDeletePopup && (
                     <DeletePopup
