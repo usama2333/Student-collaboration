@@ -44,7 +44,7 @@ const Page = () => {
     <div className="contact-wrapper">
       <div className="contact-hero">
         <h1>Contact Us</h1>
-        <p>We'd love to hear from you — reach out anytime!</p>
+        <p>We would love to hear from you — reach out anytime!</p>
       </div>
 
       <div className="contact-container">
