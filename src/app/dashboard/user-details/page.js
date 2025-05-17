@@ -57,27 +57,10 @@ const page = () => {
   }, [viewData, currentUserData]);
 
   const handleViewClick = () => {
-    if (currentRole?.role !== "user") {
+  
       dispatch(setEdit(displayedUser))
     router.push('/dashboard/add-user');
-    } else {
-      // Show the toast for unauthorized users
-      toast.error("Unauthorized: You do not have permission to Edit users", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      });
-
-      // Disable the button for a short duration (e.g., 3 seconds)
-      setIsDisabled(true);
-      setTimeout(() => {
-        setIsDisabled(false); // Re-enable after 3 seconds
-      }, 3000);
-    }
+    
   };
 
   return (

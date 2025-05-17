@@ -1,9 +1,17 @@
+"use client"
+
 import React, { useRef, useState } from 'react';
 import Image from "next/image";
 import { emptyUser, logo, QR } from '../utils/images';
 import { FaFilePdf } from 'react-icons/fa';
+import QRCode from "react-qr-code";
+
+
+
 
 const Model = ({ setShowModal, userData }) => {
+    console.log('QRCode:.........................', QRCode);
+
     const printRef = useRef();
     const [isClosing, setIsClosing] = useState(false);
 
@@ -81,8 +89,22 @@ const Model = ({ setShowModal, userData }) => {
                                     <p>2. Loss of this card must be reported to the Issuing Authority.</p>
                                 </div>
                                 <div className='qr-code-div'>
-                                    <Image src={QR} alt='QR Code' height={100} width={100} />
+                                    <QRCode
+                                        value={
+                                            `Student Collaboration:\n` +
+                                            `Name: ${userData?.name || 'N/A'}\n` +
+                                            `Phone: ${userData?.phone || 'N/A'}\n` +
+                                            `CNIC: ${userData?.cnic || 'N/A'}\n` +
+                                            `DOB: ${userData?.dob ? userData.dob.slice(0, 10) : 'N/A'}\n` +
+                                            `Department: ${userData?.department || 'N/A'}\n` +
+                                            `Issue Date: ${userData?.createdAt ? userData.createdAt.slice(0, 10) : 'N/A'}\n` +
+                                            `Email: ${userData?.email || 'N/A'}`
+                                        }
+                                        size={120}
+                                    />
                                 </div>
+
+
                                 <div className='found-div'>
                                     <p>If found please return to:</p>
                                     <p>abc block xyz town</p>

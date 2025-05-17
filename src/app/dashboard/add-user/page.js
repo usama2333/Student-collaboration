@@ -43,7 +43,8 @@ export default function AddUsers() {
       role: "",
       phone: "",
       cnic: "",
-      address: ""
+      address: "",
+      dob: "",
     },
   });
 
@@ -58,14 +59,18 @@ export default function AddUsers() {
       role: "",
       phone: "",
       cnic: "",
-      address: ""
+      address: "",
+      dob: "",
     });
   };
 
   useEffect(() => {
     console.log("editData:", editData); // Check what `editData` is
     if (editData && editData.length !== 0) {
-      reset(editData);
+      const formattedDOB = editData.dob
+      ? new Date(editData.dob).toISOString().split("T")[0]
+      : "";
+      reset({ ...editData, dob: formattedDOB });
     } else {
       reset(); // Clear the form when not editing
     }

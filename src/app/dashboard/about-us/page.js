@@ -38,7 +38,7 @@ const page = () => {
     <div className="about-section about-cta">
       <h2>Ready to Collaborate?</h2>
       <p>Join the StudentCollab community and unlock the power of shared knowledge.</p>
-      <button className="about-btn">Get Started</button>
+      {/* <button className="about-btn">Get Started</button> */}
     </div>
   </div>
   )
