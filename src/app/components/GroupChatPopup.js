@@ -154,7 +154,7 @@ export default function GroupChatPopup({ group, onClose, userData }) {
                 {messages.map((msg, idx) => (
                     <div
                         key={idx}
-                        className={`message-bubble ${(typeof msg.sender === 'object' ? msg.sender._id : msg.sender) === userData.id
+                        className={`message-bubble ${((msg.sender && typeof msg.sender === 'object' ? msg.sender._id : msg.sender) === userData.id)
                             ? 'sent'
                             : 'received'
                             }`}
@@ -169,10 +169,13 @@ export default function GroupChatPopup({ group, onClose, userData }) {
                         }}
                     >
                         <div className="sender-name">
-                            {typeof msg.sender === 'object'
+                            {msg.sender && typeof msg.sender === 'object'
                                 ? msg.sender.name
-                                : (msg.sender === userData.id ? userData.name : 'Unknown')}
+                                : msg.sender === userData.id
+                                    ? userData.name
+                                    : 'Unknown'}
                         </div>
+
 
                         {msg.type === 'text' && <p>{msg.content}</p>}
                         {msg.type === 'image' && <img src={msg.fileUrl} alt="attachment" className="chat-image" />}
