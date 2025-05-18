@@ -149,7 +149,8 @@ const toggleSort = () => {
 <button onClick={toggleSort} style={{ cursor: "pointer", background: "none", border: "none", fontSize: "16px", color: "#333", display: "flex", alignItems: "center", gap: "6px" }}>
     {sortMode === "latest" ? (
       <>
-        <FaClock size={20} style={{color:'#f27c5f'}}/> Latest
+        <FaClock size={20} style={{color:'#f27c5f'}}/>
+         {/* Latest */}
       </>
     ) : sortDirection === "asc" ? (
         <FaSortAlphaDown size={20} style={{color:'#f27c5f'}}/>
