@@ -66,9 +66,9 @@ export default function Sidebar() {
             </Link>
           </li>
           <li>
-            <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/about-us" className="nav-link">
+            <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/assignment" className="nav-link">
             <BiInfoCircle size={22} />
-              <p>About Us</p>
+              <p>Assignments</p>
             </Link>
           </li>
           <li>
