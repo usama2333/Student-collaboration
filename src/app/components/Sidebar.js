@@ -56,7 +56,7 @@ export default function Sidebar() {
           <li>
             <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/user-details" className="nav-link">
             <FaAddressCard   size={22} />
-              <p>User Details</p>
+              <p>Profile</p>
             </Link>
           </li>
           <li>

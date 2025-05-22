@@ -72,7 +72,7 @@ const UserGrowthChart = ({ users }) => {
     };
 
     return (
-        <div style={{ width: '100%', background: '#fff', padding: '20px', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
+        <div style={{ width: '70%',margin:'auto', background: '#fff', padding: '20px', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
             <Bar data={chartData} options={chartOptions} />
         </div>
 
