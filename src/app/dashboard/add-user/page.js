@@ -15,6 +15,8 @@ export default function AddUsers() {
   const [selectedImage, setSelectedImage] = useState(null);
   const editData = useSelector((state) => state.dashboard.edit);
 
+  let user = JSON.parse(localStorage.getItem('user')|| '{}');
+
   const dispatch = useDispatch();
   console.log(editData, 'Edit data .................')
 
@@ -164,6 +166,7 @@ export default function AddUsers() {
                     {...register("role", {
                       required: "Please select a role",
                     })}
+                    disabled={user.role != "superadmin"}
                     className="form-select"
                   >
                     <option value="">Select a role</option>

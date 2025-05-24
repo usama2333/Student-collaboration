@@ -6,7 +6,7 @@ export default async function logoutApi(authCtx, router, toast, setTimeout) {
         const token = localStorage.getItem("token");
 
         const response = await axios.post(
-            "http://localhost:5000/api/auth/logout",
+            "http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/auth/logout",
             {},
             {
                 headers: {

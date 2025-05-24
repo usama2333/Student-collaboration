@@ -2,7 +2,10 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/users.css";
 import "../../styles/assignment.css";
+import axios from 'axios';
 import { FaEdit, FaTrash,FaBell } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 const Page = () => {
   const [showForm, setShowForm] = useState(false);
@@ -20,13 +23,43 @@ const Page = () => {
   // Fetch assignments from API
   const fetchAssignments = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/assignments");
-      const data = await res.json();
-      setAssignments(data);
+
+ const userData = localStorage.getItem('user');
+    if (userData) {
+        const parsed = JSON.parse(userData);
+      debugger
+          const res = await axios.post("http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/assignments/get", {
+          userId: parsed.id
+        }
+      );
+      // const data = await res.json();
+      setAssignments(res.data);
+          
+    }
+      
+    
     } catch (err) {
       console.error("Error fetching assignments", err);
     }
   };
+
+  const completeAssignment = (assignment) =>{
+
+    if(!window.confirm("Are yu sure yo want c okete")){
+      return;
+    }
+    assignment.completed = true;
+    
+    axios.put('http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/assignments/'+assignment._id, {
+      ...assignment
+    }).then((resp)=>{
+      if(resp.data.success){
+        toast.success("Assignment comopleted")
+        fetchAssignments();
+      }
+    })
+
+  }
 
   useEffect(() => {
     fetchAssignments();
@@ -56,16 +89,22 @@ const Page = () => {
     e.preventDefault();
 
     const url = editingId
-      ? `http://localhost:5000/api/assignments/${editingId}`
-      : "http://localhost:5000/api/assignments";
+      ? `http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/assignments/${editingId}`
+      : "http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/assignments";
 
     const method = editingId ? "PUT" : "POST";
 
     try {
+      debugger;
+
+      let user = JSON.parse(localStorage.getItem('user') || '{}');
+      if(!user.id){
+        return alert('Session not found')
+      }
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, creator: user.name })
+        body: JSON.stringify({ ...formData, creator: user.id })
       });
 
       if (res.ok) {
@@ -108,7 +147,7 @@ const getUrgencyClass = (dueDate) => {
     if (!window.confirm("Delete this assignment?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/assignments/${id}`, {
+      const res = await fetch(`http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/assignments/${id}`, {
         method: "DELETE"
       });
 
@@ -146,7 +185,7 @@ const getUrgencyClass = (dueDate) => {
 
   {upcomingAssignments.length > 0 && (
     <span className="notification-badge">
-      {upcomingAssignments.length}
+      {upcomingAssignments.filter(a=>!a.completed).length}
     </span>
   )}
 </div>
@@ -154,8 +193,8 @@ const getUrgencyClass = (dueDate) => {
 
 {showNotifications && (
   <div className="floating-notification">
-    {upcomingAssignments.length > 0 ? (
-      upcomingAssignments.map((assignment) => (
+    {upcomingAssignments.filter(a=>!a.completed).length > 0 ? (
+      upcomingAssignments.filter(a=>!a.completed).map((assignment) => (
         <div
   key={assignment._id}
   className={`notification-card ${getUrgencyClass(assignment.dueDate)}`}
@@ -213,6 +252,7 @@ const getUrgencyClass = (dueDate) => {
                 type="date"
                 name="dueDate"
                 value={formData.dueDate}
+                 min={new Date().toISOString().split('T')[0]}
                 onChange={handleInputChange}
                 required
               />
@@ -250,8 +290,8 @@ const getUrgencyClass = (dueDate) => {
         </thead>
         <tbody>
           {assignments.map((assignment) => (
-            <tr key={assignment._id}>
-              <td>{assignment.creator}</td>
+            <tr style={{backgroundColor:assignment.completed ? '#bbffca' : ''}} key={assignment._id}>
+              <td>{assignment.creator.name}</td>
               <td>{assignment.subject}</td>
               <td>{assignment.title}</td>
               <td>{new Date(assignment.dueDate).toLocaleDateString()}</td>
@@ -267,11 +307,13 @@ const getUrgencyClass = (dueDate) => {
                   title="Delete"
                   onClick={() => handleDelete(assignment._id)}
                 />
+                <button onClick={e=>completeAssignment(assignment)}>{assignment.completed ? 'Completed' : 'Mark Complete'}</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+         <ToastContainer />
     </div>
   );
 };

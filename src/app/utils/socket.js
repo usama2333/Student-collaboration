@@ -5,7 +5,7 @@ let socket;
 
 export const getSocket = () => {
   if (!socket) {
-    socket = io('http://localhost:5000', {
+    socket = io('http://'+process.env.NEXT_PUBLIC_API_URL+':5000', {
       auth: {
         token: localStorage.getItem('token') || '',
       },

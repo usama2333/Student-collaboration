@@ -25,7 +25,7 @@ export default function GroupChatPopup({ group, onClose, userData }) {
     // Function to fetch messages from the backend API
     const fetchMessages = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/groups/${group._id}/messages`, {
+            const response = await axios.get(`http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/groups/${group._id}/messages`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
@@ -42,7 +42,7 @@ export default function GroupChatPopup({ group, onClose, userData }) {
         try {
             console.log('groupId:', group._id, 'messageId:', messageId);
 
-            await axios.delete(`http://localhost:5000/api/groups/${group._id}/messages/${messageId}`, {
+            await axios.delete(`http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/groups/${group._id}/messages/${messageId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
@@ -105,7 +105,7 @@ export default function GroupChatPopup({ group, onClose, userData }) {
             formData.append('file', file);
 
             try {
-                const response = await axios.post('http://localhost:5000/api/chat/upload', formData, {
+                const response = await axios.post('http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/chat/upload', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         Authorization: `Bearer ${localStorage.getItem('token')}`,

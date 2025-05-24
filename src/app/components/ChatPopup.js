@@ -65,7 +65,7 @@ export default function ChatPopup({ user, onClose, userData }) {
     console.log(messageId, 'Message id..............')
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/messages/${messageId}`, {
+      await axios.delete(`http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/messages/${messageId}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -109,7 +109,7 @@ const handleAudioRecorded = (audioFile) => {
       formData.append('file', file);
 
       try {
-        const response = await axios.post('http://localhost:5000/api/chat/upload', formData, {
+        const response = await axios.post('http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/chat/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${localStorage.getItem('token')}`,

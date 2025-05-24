@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default async function sendMessageApi({ to, subject, message, replyTo }, Swal, resetForm) {
   try {
-    const response = await axios.post("http://localhost:5000/api/send-message", {
+    const response = await axios.post("http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/send-message", {
       to,
       subject,
       message,
