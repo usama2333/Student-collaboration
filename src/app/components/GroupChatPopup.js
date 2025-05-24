@@ -25,7 +25,7 @@ export default function GroupChatPopup({ group, onClose, userData }) {
     // Function to fetch messages from the backend API
     const fetchMessages = async () => {
         try {
-            const response = await axios.get(`http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/groups/${group._id}/messages`, {
+            const response = await axios.get(`http://${process.env.NEXT_PUBLIC_API_URL}:5000/api/groups/${group._id}/messages`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
@@ -42,7 +42,7 @@ export default function GroupChatPopup({ group, onClose, userData }) {
         try {
             console.log('groupId:', group._id, 'messageId:', messageId);
 
-            await axios.delete(`http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/groups/${group._id}/messages/${messageId}`, {
+            await axios.delete(`http://${process.env.NEXT_PUBLIC_API_URL}:5000/api/groups/${group._id}/messages/${messageId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
@@ -78,6 +78,7 @@ export default function GroupChatPopup({ group, onClose, userData }) {
 
         socket.on('group_message', (msg) => {
             if (msg.room === group._id) {
+                debugger
                 // Make sure new messages are appended and not replacing existing ones
                 setMessages((prev) => [...prev, msg]);
             }

@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { FiUserX,FiX } from "react-icons/fi";
 import ConfirmModal from "@/app/components/ConfirmModal";
 import { color } from "framer-motion";
+import axios from "axios";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -25,6 +26,15 @@ const Users = () => {
   const [sortMode, setSortMode] = useState("latest"); // 'latest' or 'alphabetical'
 const [sortDirection, setSortDirection] = useState("asc"); // 'asc' or 'desc'
 
+
+const updateMessages = async (user)=>{
+
+  const newMessages = user.messagesToMe.filter(m=>!m.seen);
+  await axios.post('http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/users/update-messages', {newMessages},   { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+user.messagesToMe.length = 0;
+setUsers([...users]);
+
+} 
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -179,6 +189,7 @@ const toggleSort = () => {
           {filteredUsers.length > 0 ? (
             filteredUsers.map((item, index) => (
               <tr key={index}>
+                <td>{item.messagesToMe ?.length}</td>
                 <td>{item.name}</td>
                 <td>{item.department}</td>
                 <td>{item.email}</td>
@@ -264,6 +275,9 @@ const toggleSort = () => {
 
       {activeChatUser && (
         <ChatPopup
+        onOpen={e=>{
+          updateMessages(activeChatUser);
+        }}
           user={activeChatUser}
           userData={userData}
           onClose={() => setActiveChatUser(null)}

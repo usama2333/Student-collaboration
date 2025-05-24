@@ -4,7 +4,7 @@ export default async function signUpApi(data,router, toast, setTimeout ) {
   try {
     const response = await axios({
       method: "post",
-      url: "http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/auth/signup",
+      url: 'http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/auth/signup',
       data: {
         name: data.name,
         email: data.email,

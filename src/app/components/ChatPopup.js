@@ -10,7 +10,7 @@ import DeletePopup from './DeletePopup';
 import AudioRecorder from './AudioRecorder';
 import { IoSend } from 'react-icons/io5';
 
-export default function ChatPopup({ user, onClose, userData }) {
+export default function ChatPopup({ user, onClose, onOpen, userData }) {
 
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -65,7 +65,7 @@ export default function ChatPopup({ user, onClose, userData }) {
     console.log(messageId, 'Message id..............')
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/messages/${messageId}`, {
+      await axios.delete(`http://${process.env.NEXT_PUBLIC_API_URL}:5000/api/messages/${messageId}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -88,6 +88,9 @@ const handleAudioRecorded = (audioFile) => {
 
 
   useEffect(() => {
+
+onOpen && onOpen()
+
     socket.on('message_deleted', ({ messageId }) => {
       setMessages(prev => prev.filter(msg => msg._id !== messageId));
     });

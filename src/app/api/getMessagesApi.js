@@ -5,7 +5,7 @@ export default async function getMessagesApi(userId) {
         const token = localStorage.getItem("token");
 
         const response = await axios.get(
-            `http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/messages/${userId}`,
+            `http://${process.env.NEXT_PUBLIC_API_URL}:5000/api/messages/${userId}`,
             {
                 headers: {
                     "Content-Type": "application/json",

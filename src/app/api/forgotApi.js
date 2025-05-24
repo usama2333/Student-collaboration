@@ -3,7 +3,7 @@ import axios from "axios";
 export default async function forgotApi(data, toast, router, setTimeout) {
   try {
     const email = data?.email;
-    const response = await axios.post("http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/auth/forgot-password", {
+    const response = await axios.post('http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/auth/forgot-password', {
         email,
     });
 

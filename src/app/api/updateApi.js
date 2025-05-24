@@ -5,7 +5,7 @@ export default async function updateApi(token, data, toast, router, setTimeout) 
     const { password, confirmPassword } = data;
 
     const response = await axios.post(
-      `http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/auth/reset-password/${token}`,
+      `http://${process.env.NEXT_PUBLIC_API_URL}:5000/api/auth/reset-password/${token}`,
       {
         password,
         confirmPassword,

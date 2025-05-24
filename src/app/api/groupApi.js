@@ -3,7 +3,7 @@ import axios from "axios";
 export async function createGroup(name) {
   const token = localStorage.getItem("token");
   const response = await axios.post(
-    "http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/groups",
+    'http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/groups',
     { name },
     { headers: { Authorization: `Bearer ${token}` } }
   );
@@ -12,7 +12,7 @@ export async function createGroup(name) {
 
 export async function getGroups() {
   const token = localStorage.getItem("token");
-  const response = await axios.get("http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/groups", {
+  const response = await axios.get('http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/groups', {
     headers: { Authorization: `Bearer ${token}` }
   });
   return response.data;
@@ -28,7 +28,7 @@ export const deleteGroup = async (groupId,toast) => {
       return;
     }
   try {
-    const response = await axios.delete(`http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/groups/${groupId}`, {
+    const response = await axios.delete(`http://${process.env.NEXT_PUBLIC_API_URL}:5000/api/groups/${groupId}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     return response.data; // Return response data
@@ -57,7 +57,7 @@ export const updateGroupName = async (groupId, newName, toast) => {
 
     try {
         const response = await axios.put(
-            `http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/groups/${groupId}`,
+            `http://${process.env.NEXT_PUBLIC_API_URL}:5000/api/groups/${groupId}`,
             { name: newName },
             {
                 headers: {

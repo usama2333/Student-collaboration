@@ -28,7 +28,7 @@ const Page = () => {
     if (userData) {
         const parsed = JSON.parse(userData);
       debugger
-          const res = await axios.post("http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/assignments/get", {
+          const res = await axios.post('http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/assignments/get', {
           userId: parsed.id
         }
       );
@@ -89,8 +89,8 @@ const Page = () => {
     e.preventDefault();
 
     const url = editingId
-      ? `http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/assignments/${editingId}`
-      : "http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/assignments";
+      ? `http://${process.env.NEXT_PUBLIC_API_URL}:5000/api/assignments/${editingId}`
+      : 'http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/assignments';
 
     const method = editingId ? "PUT" : "POST";
 
@@ -147,7 +147,7 @@ const getUrgencyClass = (dueDate) => {
     if (!window.confirm("Delete this assignment?")) return;
 
     try {
-      const res = await fetch(`http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/assignments/${id}`, {
+      const res = await fetch(`http://${process.env.NEXT_PUBLIC_API_URL}:5000/api/assignments/${id}`, {
         method: "DELETE"
       });
 

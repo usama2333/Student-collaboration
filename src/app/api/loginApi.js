@@ -10,7 +10,7 @@ export default async function loginApi(
     try {
         const response = await axios({
             method: "post",
-            url: "http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/auth/login",
+            url: 'http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/auth/login',
             data: {
                 email: data.email,
                 password: data.password,
