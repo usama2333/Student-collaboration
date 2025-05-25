@@ -30,6 +30,7 @@ const [sortDirection, setSortDirection] = useState("asc"); // 'asc' or 'desc'
 const updateMessages = async (user)=>{
 
   const newMessages = user.messagesToMe.filter(m=>!m.seen);
+  debugger
   await axios.post('http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/users/update-messages', {newMessages},   { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
 user.messagesToMe.length = 0;
 setUsers([...users]);
@@ -178,6 +179,7 @@ const toggleSort = () => {
       <table className="custom-table">
         <thead>
           <tr>
+            <th></th>
             <th>Name</th>
             <th>Department</th>
             <th>Email</th>
@@ -189,7 +191,7 @@ const toggleSort = () => {
           {filteredUsers.length > 0 ? (
             filteredUsers.map((item, index) => (
               <tr key={index}>
-                <td>{item.messagesToMe ?.length}</td>
+                <td>{item.messagesToMe ?.length ? <b style={{fontWeight:"bold", justifyContent:"center", alignItems:"center", color:"white",backgroundColor:"red", display:"flex", borderRadius:"25px", width:"25px", height:"25px"}}>{item.messagesToMe ?.length}</b> : null}</td>
                 <td>{item.name}</td>
                 <td>{item.department}</td>
                 <td>{item.email}</td>
