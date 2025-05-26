@@ -8,12 +8,14 @@ import Image from "next/image";
 import addUserApi from "@/app/api/addUserApi";
 import { clearEditData } from "@/redux/features/dashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 
 export default function AddUsers() {
   // for handling image
   const [selectedImage, setSelectedImage] = useState(null);
   const editData = useSelector((state) => state.dashboard.edit);
+  const router = useRouter();
 
   let user = JSON.parse(localStorage.getItem('user')|| '{}');
 
@@ -52,7 +54,10 @@ export default function AddUsers() {
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-    addUserApi(data, toast);
+    addUserApi(data, toast).then(()=>{
+      router.push("/dashboard/user-details") 
+
+    });
     dispatch(clearEditData());
     reset({
       name: "",
@@ -166,7 +171,7 @@ export default function AddUsers() {
                     {...register("role", {
                       required: "Please select a role",
                     })}
-                    disabled={user.role != "superadmin"}
+                    disabled={user.role.match(/user/i)}
                     className="form-select"
                   >
                     <option value="">Select a role</option>
@@ -210,64 +215,7 @@ export default function AddUsers() {
               {/* form second haf */}
               <div className="flex-grow-1">
                 {/* image flex */}
-
-                <div className="upload-container">
-                  <p className="upload-text">Upload Image</p>
-
-                  {/* Image Preview */}
-                  <div className="image-box">
-                    {!selectedImage && (
-                      <Image
-                        src="/images/dummy.png"
-                        alt="Upload"
-                        width={60}
-                        height={60}
-                      />
-                    )}
-                    {selectedImage && (
-                      <div className="image-preview">
-                        <img
-                          src={URL.createObjectURL(selectedImage)}
-                          alt="Selected"
-                          className="selected-img"
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Upload Button */}
-                  <div className="button-box">
-                    <button onClick={handleButtonClick} className="upload-btn">
-                      <Image
-                        src="/images/download.png"
-                        alt="Upload"
-                        className="icon"
-                        width={30} // Set the width
-                        height={30} // Set the height
-                      />
-                      Upload
-                    </button>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      id="imageInput"
-                      style={{ display: "none" }}
-                      onChange={handleImageChange}
-                    />
-                  </div>
-
-                  {/* Cancel Button */}
-                  {selectedImage && (
-                    <Image
-                      onClick={() => setSelectedImage(null)}
-                      src="/images/cancel.png"
-                      alt="Cancel"
-                      className="cancel-btn"
-                      width={30} // Set the width
-                      height={30} // Set the height
-                    />
-                  )}
-                </div>
+              
 
                 <div className="form-group">
                   <label

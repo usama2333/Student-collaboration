@@ -47,12 +47,12 @@ export default function Sidebar() {
               <p>Users</p>
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/add-user" className="nav-link">
             <FaUserPlus  size={22} />
               <p>Add User</p>
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link style={{display:'flex', alignItems:'center',gap:'10px'}} href="/dashboard/user-details" className="nav-link">
             <FaAddressCard   size={22} />

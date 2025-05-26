@@ -39,7 +39,7 @@ const Page = () => {
   };
 
   const completeAssignment = (assignment) => {
-    if (!window.confirm('Are yu sure yo want c okete')) {
+    if (!window.confirm('Are you sure you want to mark this assignment as completed?')) {
       return;
     }
     assignment.completed = true;
@@ -50,7 +50,7 @@ const Page = () => {
       })
       .then((resp) => {
         if (resp.data.success) {
-          toast.success('Assignment comopleted');
+          toast.success('Assignment completed successfully!');
           fetchAssignments();
         }
       });

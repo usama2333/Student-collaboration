@@ -66,9 +66,9 @@ const Page = () => {
   return (
     <div className='user-details-con' style={{ position: 'relative' }}>
       <div className='main-row'>
-        <div>
+        {/* <div>
           <Image src={emptyUser} height={220} width={220} alt='User' className="floating-img" />
-        </div>
+        </div> */}
         <div style={{ width: '100%' }}>
           <div className='upper-detail-row'>
 

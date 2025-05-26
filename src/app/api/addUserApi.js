@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export default async function addUserApi(data, toast) {
+  return  new Promise(async (resolve, reject) => {
   console.log(data, 'api data................');
   
   try {
@@ -27,6 +28,7 @@ export default async function addUserApi(data, toast) {
     });
 
     if (response.status === 200 || response.status === 201) {
+      resolve();
       toast.success("User details updated successfully!", {
         position: "top-right",
         autoClose: 3000,
@@ -50,4 +52,5 @@ export default async function addUserApi(data, toast) {
       theme: "light",
     });
   }
+  });
 }

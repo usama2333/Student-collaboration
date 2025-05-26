@@ -69,7 +69,7 @@ export default function Navbar() {
             <ul>
               <li ><Link href="/dashboard">Dashboard</Link></li>
               <li ><Link href="/dashboard/users">Users</Link></li>
-              <li ><Link href="/dashboard/add-user">Add User</Link></li>
+              {/* <li ><Link href="/dashboard/add-user">Add User</Link></li> */}
               <li ><Link href="/dashboard/user-details">User Details</Link></li>
               <li onClick={handleLogout}>Logout</li>
             </ul>
