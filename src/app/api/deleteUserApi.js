@@ -7,7 +7,7 @@ export default async function deleteUserApi(id, toast) {
         console.log(id,'id..........')
         const response = await axios({
             method: "delete",
-            url: 'http://'+process.env.NEXT_PUBLIC_API_URL+':5000/api/users/${id}',
+            url: `http://${process.env.NEXT_PUBLIC_API_URL}:5000/api/users/${id}`,
             headers: {
                 "Content-Type": "application/json", // Make sure this header is set
                 "Authorization": `Bearer ${token}`, // Add Authorization header
